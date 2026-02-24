@@ -31,19 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  int currentPage = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  int currentPage = 0;
 
   void _onTapped(int index) {
     setState(() {
@@ -69,18 +58,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedIndex: currentPage,
                 onDestinationSelected: _onTapped,
                 labelType: NavigationRailLabelType.selected,
+                selectedLabelTextStyle: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                ),
                 destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
-                    label: Text('Home', style: TextStyle(fontFamily: 'Nunito')),
+                    label: Text('Home'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.search),
-                    label: Text('Search', style: TextStyle(fontFamily: 'Nunito')),
+                    label: Text('Search'),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.person),
-                    label: Text('Profile', style: TextStyle(fontFamily: 'Nunito')),
+                    label: Text('Profile'),
                   ),
                 ],
               ),

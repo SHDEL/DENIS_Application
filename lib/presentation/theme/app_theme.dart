@@ -6,6 +6,11 @@ class AppTheme {
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Nunito',
+    textTheme: const TextTheme(
+      
+      displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+      
+    ),
     
   );
   
