@@ -1,3 +1,5 @@
+import 'package:DENIS/presentation/pages/splash.dart';
+import 'package:DENIS/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -13,10 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DENIS App',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: AppTheme.lightTheme,
+      home: const SplashPage(),
     );
   }
 }
@@ -72,15 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
-                    label: Text('Home'),
+                    label: Text('Home', style: TextStyle(fontFamily: 'Nunito')),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.search),
-                    label: Text('Search'),
+                    label: Text('Search', style: TextStyle(fontFamily: 'Nunito')),
                   ),
                   NavigationRailDestination(
                     icon: Icon(Icons.person),
-                    label: Text('Profile'),
+                    label: Text('Profile', style: TextStyle(fontFamily: 'Nunito')),
                   ),
                 ],
               ),
@@ -101,26 +101,36 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       bottomNavigationBar: BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.purple,
-      unselectedItemColor: Colors.grey,
-      currentIndex: currentPage,
-      onTap: _onTapped,
-    
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
+          selectedLabelStyle: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+          fontSize: 13,
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ]),
+        currentIndex: currentPage,
+        onTap: _onTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '',
+          ),
+        ]
+      ),
     );
   }
 }
