@@ -1,4 +1,4 @@
-# denis_app
+# DENIS-app
 
 Dental Instrument System Application.
 
