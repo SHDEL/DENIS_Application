@@ -5,7 +5,11 @@ import 'package:flutter/widget_previews.dart';
 
 class PrimaryInput extends StatelessWidget {
   @Preview(name: 'Primary Input')
-  const PrimaryInput({super.key});
+  final String text;
+  const PrimaryInput({
+    required this.text,
+    super.key
+  });
   
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,8 @@ class PrimaryInput extends StatelessWidget {
           borderSide: BorderSide(color: AppTheme.lightTheme.primaryColor, width: 2),
         ),
         labelStyle: TextStyle(color: AppTheme.lightTheme.primaryColor),
-        labelText: 'Username',
+        labelText: text,
       ),
-    );  
+    );
   }
 }

@@ -14,9 +14,11 @@ class PreSignupPage extends StatefulWidget {
 
 class _PreSignupPageState extends State<PreSignupPage> {
 
-  VoidCallback? get onPressed => () {
+  VoidCallback? get onPressedSignUp => () {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
   };
+
+  VoidCallback? get onPressedLogin => () {};
   
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,9 @@ class _PreSignupPageState extends State<PreSignupPage> {
                   const SizedBox(height: 100),
                   SvgPicture.asset('assets/image/DenisTextIcon.svg'),
                   const SizedBox(height: 100),
-                  PrimaryAppButton(onPressed: onPressed, text: 'Sign Up'),
+                  PrimaryAppButton(onPressed: onPressedSignUp, text: 'Sign Up'),
                   const SizedBox(height: 12),
-                  OutlineAppButton(onPressed: onPressed, text: 'I have an account already')
+                  OutlineAppButton(onPressed: onPressedLogin, text: 'I have an account already')
                 ],
               ),
             ),
