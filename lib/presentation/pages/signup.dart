@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   };
 
   VoidCallback? get onPressedSignIn => () {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
   };
 
   @override
