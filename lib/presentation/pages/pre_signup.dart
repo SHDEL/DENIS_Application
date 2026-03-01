@@ -1,4 +1,5 @@
 
+import 'package:DENIS/presentation/pages/signin.dart';
 import 'package:DENIS/presentation/pages/signup.dart';
 import 'package:DENIS/presentation/widgets/outline_app_button.dart';
 import 'package:DENIS/presentation/widgets/primary_app_button.dart';
@@ -18,7 +19,9 @@ class _PreSignupPageState extends State<PreSignupPage> {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
   };
 
-  VoidCallback? get onPressedLogin => () {};
+  VoidCallback? get onPressedSignIn => () {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+  };
   
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class _PreSignupPageState extends State<PreSignupPage> {
                   const SizedBox(height: 100),
                   PrimaryAppButton(onPressed: onPressedSignUp, text: 'Sign Up'),
                   const SizedBox(height: 12),
-                  OutlineAppButton(onPressed: onPressedLogin, text: 'I have an account already')
+                  OutlineAppButton(onPressed: onPressedSignIn, text: 'I have an account already')
                 ],
               ),
             ),
