@@ -1,5 +1,4 @@
 import 'package:DENIS/presentation/pages/homepage.dart';
-import 'package:DENIS/presentation/widgets/outline_app_button.dart';
 import 'package:DENIS/presentation/widgets/primary_app_button.dart';
 import 'package:DENIS/presentation/widgets/primary_input.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +49,6 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
-      
     );
   }
 }
