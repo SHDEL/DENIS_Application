@@ -32,6 +32,13 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+firebase_options.dart
+
+# Android related
+google-services.json
+
+# firebase related
+firebase.json
 
 # Symbolication related
 app.*.symbols
