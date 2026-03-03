@@ -1,10 +1,7 @@
 import 'package:DENIS/presentation/pages/homepage.dart';
-<<<<<<< HEAD
-=======
 import 'package:DENIS/presentation/pages/signin.dart';
 import 'package:DENIS/presentation/theme/app_theme.dart';
 
->>>>>>> 2aba446fbfa32a33075bd37844fa00d31358558e
 import 'package:DENIS/presentation/widgets/primary_app_button.dart';
 import 'package:DENIS/presentation/widgets/primary_input.dart';
 import 'package:flutter/material.dart';
