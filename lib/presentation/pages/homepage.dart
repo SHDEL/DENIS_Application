@@ -1,4 +1,6 @@
 
+import 'package:DENIS/presentation/widgets/camera_widget.dart';
+import 'package:DENIS/presentation/widgets/home_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     if (kIsWeb){
       return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Row(
             children: [
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // This is the main content.
               Expanded(
                 child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
+                  color: Colors.white,
                   child: currentPage == 0
                       ? _buildWebHomePage()
                       : currentPage == 1
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     
     // for mobile
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: currentPage == 0
             ? _buildWebHomePage()
@@ -208,98 +210,70 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildWebHomePage() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Camera feed mockup — roughly half the available height
-          Flexible(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey[800]!, width: 2),
-              ),
-              child: const Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.videocam,
-                      color: Colors.white54,
-                      size: 56,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Camera',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 20,
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          // Bottom half — dental instrument list
-          Flexible(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white24,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      color: Colors.white30,
-                      child: const Text(
-                        'Instrument Inventory',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                    const Divider(height: 1, thickness: 1),
-                    Expanded(
-                      child: ListView(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        children: const [
-                          _InstrumentTile(name: 'Hemostat',              location: 'Shelf A1'),
-                          _InstrumentTile(name: 'Tissue Scissors',       location: 'Shelf A2'),
-                          _InstrumentTile(name: 'Dental Mirror',         location: 'Shelf B1'),
-                          _InstrumentTile(name: 'Explorer Probe',        location: 'Shelf B2'),
-                          _InstrumentTile(name: 'Dental Forceps',        location: 'Shelf B3'),
-                          _InstrumentTile(name: 'Scalpel Handle',        location: 'Shelf C1'),
-                          _InstrumentTile(name: 'Periosteal Elevator',   location: 'Shelf C2'),
-                          _InstrumentTile(name: 'Cheek Retractor',       location: 'Shelf C3'),
-                          _InstrumentTile(name: 'Amalgam Condenser',     location: 'Shelf D1'),
-                          _InstrumentTile(name: 'Saliva Ejector',        location: 'Shelf D2'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    // return Padding(
+    //   padding: const EdgeInsets.all(24.0),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+    //     children: [
+    //       // Camera feed mockup — roughly half the available height
+    //       Flexible(
+    //         flex: 1,
+    //         child: CameraWidget(),
+    //       ),
+    //       const SizedBox(height: 24),
+    //       // Bottom half — dental instrument list
+    //       Flexible(
+    //         flex: 1,
+    //         child: Container(
+    //           decoration: BoxDecoration(
+    //             color: Colors.white24,
+    //             borderRadius: BorderRadius.circular(12),
+    //           ),
+    //           child: ClipRRect(
+    //             borderRadius: BorderRadius.circular(12),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.stretch,
+    //               children: [
+    //                 Container(
+    //                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    //                   color: Colors.white30,
+    //                   child: const Text(
+    //                     'Instrument Inventory',
+    //                     style: TextStyle(
+    //                       fontFamily: 'Nunito',
+    //                       fontWeight: FontWeight.w700,
+    //                       fontSize: 15,
+    //                       color: Colors.black87,
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 const Divider(height: 1, thickness: 1),
+    //                 Expanded(
+    //                   child: ListView(
+    //                     padding: const EdgeInsets.symmetric(vertical: 4),
+    //                     children: const [
+    //                       _InstrumentTile(name: 'Hemostat',              location: 'Shelf A1'),
+    //                       _InstrumentTile(name: 'Tissue Scissors',       location: 'Shelf A2'),
+    //                       _InstrumentTile(name: 'Dental Mirror',         location: 'Shelf B1'),
+    //                       _InstrumentTile(name: 'Explorer Probe',        location: 'Shelf B2'),
+    //                       _InstrumentTile(name: 'Dental Forceps',        location: 'Shelf B3'),
+    //                       _InstrumentTile(name: 'Scalpel Handle',        location: 'Shelf C1'),
+    //                       _InstrumentTile(name: 'Periosteal Elevator',   location: 'Shelf C2'),
+    //                       _InstrumentTile(name: 'Cheek Retractor',       location: 'Shelf C3'),
+    //                       _InstrumentTile(name: 'Amalgam Condenser',     location: 'Shelf D1'),
+    //                       _InstrumentTile(name: 'Saliva Ejector',        location: 'Shelf D2'),
+    //                     ],
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+    return HomeWidget();
   }
 }
 
