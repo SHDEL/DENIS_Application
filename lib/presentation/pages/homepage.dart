@@ -1,6 +1,6 @@
 
-import 'package:DENIS/presentation/widgets/camera_widget.dart';
-import 'package:DENIS/presentation/widgets/home_widget.dart';
+import 'package:denis/presentation/widgets/camera_widget.dart';
+import 'package:denis/presentation/widgets/home_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

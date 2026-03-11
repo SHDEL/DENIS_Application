@@ -1,8 +1,8 @@
 
-import 'package:DENIS/presentation/pages/signin.dart';
-import 'package:DENIS/presentation/pages/signup.dart';
-import 'package:DENIS/presentation/widgets/outline_app_button.dart';
-import 'package:DENIS/presentation/widgets/primary_app_button.dart';
+import 'package:denis/presentation/pages/signin.dart';
+import 'package:denis/presentation/pages/signup.dart';
+import 'package:denis/presentation/widgets/outline_app_button.dart';
+import 'package:denis/presentation/widgets/primary_app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

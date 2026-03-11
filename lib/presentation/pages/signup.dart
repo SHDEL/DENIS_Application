@@ -1,9 +1,8 @@
-import 'package:DENIS/presentation/pages/homepage.dart';
-import 'package:DENIS/presentation/pages/signin.dart';
-import 'package:DENIS/presentation/theme/app_theme.dart';
-
-import 'package:DENIS/presentation/widgets/primary_app_button.dart';
-import 'package:DENIS/presentation/widgets/primary_input.dart';
+import 'package:denis/presentation/pages/homepage.dart';
+import 'package:denis/presentation/pages/signin.dart';
+import 'package:denis/presentation/theme/app_theme.dart';
+import 'package:denis/presentation/widgets/primary_app_button.dart';
+import 'package:denis/presentation/widgets/primary_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

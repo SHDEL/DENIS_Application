@@ -1,4 +1,4 @@
-import 'package:DENIS/presentation/theme/app_colors.dart';
+import 'package:denis/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 

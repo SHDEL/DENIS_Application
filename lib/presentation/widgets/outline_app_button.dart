@@ -1,5 +1,5 @@
-import 'package:DENIS/presentation/theme/app_colors.dart';
-import 'package:DENIS/presentation/theme/app_theme.dart';
+import 'package:denis/presentation/theme/app_colors.dart';
+import 'package:denis/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 

@@ -1,9 +1,9 @@
-import 'package:DENIS/presentation/theme/app_colors.dart';
-import 'package:DENIS/presentation/widgets/camera_widget.dart';
-import 'package:DENIS/presentation/widgets/category_button.dart';
-import 'package:DENIS/presentation/widgets/instrument_grid.dart';
-import 'package:DENIS/presentation/widgets/instrument_list.dart';
-import 'package:DENIS/presentation/widgets/primary_app_button.dart';
+import 'package:denis/presentation/theme/app_colors.dart';
+import 'package:denis/presentation/widgets/camera_widget.dart';
+import 'package:denis/presentation/widgets/category_button.dart';
+import 'package:denis/presentation/widgets/instrument_grid.dart';
+import 'package:denis/presentation/widgets/instrument_list.dart';
+import 'package:denis/presentation/widgets/primary_app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 
