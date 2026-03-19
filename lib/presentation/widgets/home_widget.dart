@@ -51,7 +51,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(48.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -67,7 +67,9 @@ class _HomeWidgetState extends State<HomeWidget> {
             const SizedBox(height: 12),
             const SizedBox(
               height: 300,
-              child: CameraWidget(),
+              child: Center(
+                  child: CameraWidget(),
+              ),
             ),
             const SizedBox(height: 24),
             SingleChildScrollView(

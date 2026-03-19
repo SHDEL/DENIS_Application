@@ -36,9 +36,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 44),
-                  SvgPicture.asset('assets/image/DenisTextIcon.svg'),
-                  const SizedBox(height: 44),
+                  const SizedBox(height: 24),
+                SvgPicture.asset('assets/image/DenisTextIcon.svg', height: 200),
+                  const SizedBox(height: 24),
                   Text('Sign Up', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.lightTheme.primaryColor)),
                   const SizedBox(height: 24),
                   PrimaryInput(text: 'Username'),
@@ -56,7 +56,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       TextButton(onPressed: onPressedSignIn, child: Text('Sign In', style: TextStyle(color: AppTheme.lightTheme.primaryColor, fontSize: 14))),
                     ],
                   ),
-
                 ],
               ),
             ),
