@@ -34,7 +34,7 @@ class _InstrumentGridState extends State<InstrumentGrid> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.selectedList.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 4,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
@@ -68,12 +68,13 @@ class _InstrumentGridState extends State<InstrumentGrid> {
                     }
                   },
                   child: Center(
-                    child: widget.isSelectionMode
-                        ? Checkbox(
-                            onChanged: (bool? x) => _toggle(index),
-                            value: widget.selectedList[index],
-                          )
-                        : const Icon(Icons.image),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image),
+                        Text("Item"),
+                      ],
+                    ),
                   ),
                 ),
               ),
