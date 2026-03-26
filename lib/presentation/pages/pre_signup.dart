@@ -41,7 +41,17 @@ class _PreSignupPageState extends State<PreSignupPage> {
                   const SizedBox(height: 100),
                   PrimaryAppButton(onPressed: onPressedSignUp, text: 'Sign Up'),
                   const SizedBox(height: 12),
-                  OutlineAppButton(onPressed: onPressedSignIn, text: 'I have an account already')
+                  OutlineAppButton(onPressed: onPressedSignIn, text: 'I have an account already'),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('If you are Staff or Admin please use in'),
+                      Text(' Website', style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold)),
+                      Text(' version')
+                    ],
+                  ),
+                  
                 ],
               ),
             ),

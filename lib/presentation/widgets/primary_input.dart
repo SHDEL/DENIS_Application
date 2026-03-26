@@ -6,14 +6,20 @@ import 'package:flutter/widget_previews.dart';
 class PrimaryInput extends StatelessWidget {
   @Preview(name: 'Primary Input')
   final String text;
+  final TextEditingController? controller;
+  final bool isPassword;
   const PrimaryInput({
     required this.text,
+    this.controller,
+    this.isPassword = false,
     super.key
   });
   
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      obscureText: isPassword,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(16)),
