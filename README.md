@@ -27,4 +27,8 @@ samples, guidance on mobile development, and a full API reference.
 
 5.Click the Start emulators button to run the Data Connect emulator with a local PGlite database.
 
-use ```firebase dataconnect:sdk:generate``` for update ORM Queries, Mutation
+use 
+```
+firebase dataconnect:sdk:generate
+``` 
+for update ORM Queries, Mutation
