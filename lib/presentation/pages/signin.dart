@@ -4,6 +4,7 @@ import 'package:denis/presentation/pages/signup.dart';
 import 'package:denis/presentation/theme/app_theme.dart';
 import 'package:denis/presentation/widgets/primary_app_button.dart';
 import 'package:denis/presentation/widgets/primary_input.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,26 +28,19 @@ class _SignInPageState extends State<SignInPage> {
     _authRepo = AuthRepoImpl();
   }
 
-
   VoidCallback? get onPressedSignUp => () {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
   };
 
   Future<void> _handleSignIn() async {
-    
     try {
       final result = await _authRepo.signIn(
         _usernameCon.text, 
         _passwordCon.text
       );
-
-      // if (result != null){
-      //   print('User signed in with UID: ${result['uid']} and Role: ${result['role']}');
-      // }
-
-      // if (mounted) {
-      //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-      // }
+      String role = result['role'] ?? 'Unknown';
+      print('User signed in with UID: ${result['uid']} and Role: $role');
+      
     } catch (e) {
       print(e);
     }
@@ -86,9 +80,8 @@ class _SignInPageState extends State<SignInPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('If you are Staff or Admin please use in'),
+                      Text('If you are Staff or Admin please use the'),
                       Text(' Website', style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold)),
-                      Text(' version')
                     ],
                   ),
 

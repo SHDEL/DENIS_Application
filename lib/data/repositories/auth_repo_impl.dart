@@ -28,9 +28,8 @@ class AuthRepoImpl extends AuthRepository{
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    await _authService.signOut();
   }
 
   @override

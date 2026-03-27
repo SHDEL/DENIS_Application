@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DENIS App',
       theme: AppTheme.lightTheme,
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -42,18 +44,51 @@ class MyApp extends StatelessWidget {
               future: ExampleConnector.instance.getRoleById(id: uid).execute(),
               builder: (context, roleSnapshot) {
 
-                if (roleSnapshot.connectionState == ConnectionState.waiting) {
-                  return const SplashPage(); 
-                }
-
+                // if (roleSnapshot.connectionState == ConnectionState.waiting) {
+                //   return const SplashPage(); 
+                // }
                 String userRole = "USER";
-                
                 if (roleSnapshot.hasData && roleSnapshot.data?.data?.user != null) {
                    userRole = roleSnapshot.data!.data!.user!.role; 
                 }
                 print('User role in main: $userRole');
 
-                return MyHomePage(title: 'Home', role: userRole);
+                if (!kIsWeb && userRole == 'ADMIN') {
+                  // สั่งทำงานแสดง SnackBar ทันทีที่ Build หน้านี้เสร็จ
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    rootScaffoldMessengerKey!.currentState?.showSnackBar(
+                      SnackBar(
+                        content: const Text('If you are Staff or Admin please use the Website version.'), // เปลี่ยนข้อความได้
+                        backgroundColor: Colors.red,
+                        duration: const Duration(milliseconds: 5000),
+                        width: 300.0, // Width of the SnackBar.
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, // Inner padding for SnackBar content.
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        action: SnackBarAction(
+                          label: 'OK',
+                          textColor: Colors.white,
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  });
+                  
+                  // บังคับออกจากระบบทันที
+                  FirebaseAuth.instance.signOut();
+                  
+                  // แสดงหน้าจอรอระหว่างเตะกลับไปหน้า Sign In
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                else {
+                  return MyHomePage(title: 'Home', role: userRole);
+                }
               },
             );
           }

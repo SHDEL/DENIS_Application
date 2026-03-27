@@ -45,9 +45,6 @@ class _SignUpPageState extends State<SignUpPage> {
       print(e);
     }
   }
-  // VoidCallback? get onPressedSignUp => () {
-  //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-  // };
 
   VoidCallback? get onPressedSignIn => () {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
@@ -89,9 +86,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('If you are Staff or Admin please use in'),
+                      Text('If you are Staff or Admin please use the'),
                       Text(' Website', style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold)),
-                      Text(' version')
                     ],
                   ),
                 ],
