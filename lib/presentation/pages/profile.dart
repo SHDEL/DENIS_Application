@@ -27,7 +27,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 backgroundImage: AssetImage('assets/image/profile_placeholder.png'),
               ),
               SizedBox(height: 40),
-              Text('John Doe', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Hi,', style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal)),
+                  Text(' John Doe', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                ],
+              ),
               SizedBox(height: 40),
               Container(
                   decoration: BoxDecoration(
