@@ -34,7 +34,7 @@ class _InstrumentGridState extends State<InstrumentGrid> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.selectedList.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
+        crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),

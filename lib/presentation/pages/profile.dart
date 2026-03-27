@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -8,11 +9,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  double paddingValue = 16.0;
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb){
+      paddingValue = 48.0;
+    }
     return Scaffold(
       body: SafeArea(
-        child: Padding(padding: const EdgeInsets.all(48.0),
+        child: Padding(padding: EdgeInsets.all(paddingValue),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

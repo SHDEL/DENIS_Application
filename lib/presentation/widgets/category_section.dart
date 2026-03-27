@@ -19,13 +19,10 @@ class CategorySection extends StatefulWidget {
 }
 
 class _CategorySectionState extends State<CategorySection> {
-  get color => widget.color;
-  
-  IconData? get icon => null;
-  
-  String? get category => null;
-  
-  get items => null;
+  Color get color => widget.color;
+  IconData get icon => widget.icon;
+  String get category => widget.category;
+  List<Widget> get items => widget.items;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +44,7 @@ class _CategorySectionState extends State<CategorySection> {
                   Icon(icon, size: 18, color: color),
                   const SizedBox(width: 8),
                   Text(
-                    category!,
+                    category,
                     style: TextStyle(
                       fontFamily: 'Nunito',
                       fontWeight: FontWeight.w700,
