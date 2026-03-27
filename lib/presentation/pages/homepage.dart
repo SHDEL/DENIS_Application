@@ -1,7 +1,12 @@
 
+import 'package:denis/presentation/pages/profile.dart';
 import 'package:denis/presentation/widgets/camera_widget.dart';
 import 'package:denis/presentation/widgets/home_user_widget.dart';
 import 'package:denis/presentation/widgets/home_widget.dart';
+import 'package:denis/presentation/widgets/order_user_widget.dart';
+import 'package:denis/presentation/widgets/request_manage._widget.dart';
+import 'package:denis/presentation/widgets/search_admin_widget.dart';
+import 'package:denis/presentation/widgets/search_user_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -89,12 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ? _buildWebSearchPage()
                       : currentPage == 2
                       ? _buildWebOrderPage()
-                          : const Center(
-                              child: Text(
-                                'Profile',
-                                style: TextStyle(fontSize: 24),
-                              ),
-                            ),
+                      : _buildProfilePage()
                 ),
               )
             ],
@@ -110,10 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: currentPage == 0
             ? _buildWebHomePage()
             : currentPage == 1
-                ? _buildWebSearchPage()
-                : const Center(
-                    child: Text('Profile', style: TextStyle(fontSize: 24)),
-                  ),
+            ? _buildWebSearchPage()
+            : currentPage == 2
+            ? _buildWebOrderPage()
+            : _buildProfilePage()
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -137,82 +137,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildWebSearchPage() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Search bar
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Search instruments...',
-              hintStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 14),
-              prefixIcon: const Icon(Icons.search, color: Colors.blueGrey),
-              filled: true,
-              fillColor: Colors.white70,
-              contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Categorised list
-          Expanded(
-            child: ListView(
-              children: const [
-                _CategorySection(
-                  category: 'Examination',
-                  icon: Icons.search,
-                  color: Colors.teal,
-                  items: [
-                    _InstrumentTile(name: 'Dental Mirror',       location: 'Shelf A1'),
-                    _InstrumentTile(name: 'Explorer Probe',      location: 'Shelf A2'),
-                    _InstrumentTile(name: 'Periodontal Probe',   location: 'Shelf A3'),
-                  ],
-                ),
-                SizedBox(height: 12),
-                _CategorySection(
-                  category: 'Surgical',
-                  icon: Icons.cut,
-                  color: Colors.redAccent,
-                  items: [
-                    _InstrumentTile(name: 'Hemostat',            location: 'Shelf B1'),
-                    _InstrumentTile(name: 'Tissue Scissors',     location: 'Shelf B2'),
-                    _InstrumentTile(name: 'Scalpel Handle',      location: 'Shelf B3'),
-                    _InstrumentTile(name: 'Periosteal Elevator', location: 'Shelf B4'),
-                    _InstrumentTile(name: 'Dental Forceps',      location: 'Shelf B5'),
-                  ],
-                ),
-                SizedBox(height: 12),
-                _CategorySection(
-                  category: 'Restorative',
-                  icon: Icons.build_outlined,
-                  color: Colors.indigo,
-                  items: [
-                    _InstrumentTile(name: 'Amalgam Condenser',   location: 'Shelf C1'),
-                    _InstrumentTile(name: 'Composite Plugger',   location: 'Shelf C2'),
-                    _InstrumentTile(name: 'Burnisher',           location: 'Shelf C3'),
-                  ],
-                ),
-                SizedBox(height: 12),
-                _CategorySection(
-                  category: 'Airway & Suction',
-                  icon: Icons.air,
-                  color: Colors.blueGrey,
-                  items: [
-                    _InstrumentTile(name: 'Saliva Ejector',      location: 'Shelf D1'),
-                    _InstrumentTile(name: 'Cheek Retractor',     location: 'Shelf D2'),
-                    _InstrumentTile(name: 'Tongue Depressor',    location: 'Shelf D3'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+    if (widget.role == 'ADMIN'){
+      return StockSearchAdminWidget();
+    }
+    else{
+      return SearchUserWidget();
+    }
   }
 
   Widget _buildWebHomePage() {
@@ -226,100 +156,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildWebOrderPage() {
-    return const Center(
-      child: Text('Order Page - Coming Soon', style: TextStyle(fontSize: 24)),
-    );
+    if (widget.role == 'ADMIN') {
+      return RequestManagement();
+      
+    }
+    else {
+      return OrderUserWidget();
+    }
   }
-}
 
-class _CategorySection extends StatelessWidget {
-  const _CategorySection({
-    required this.category,
-    required this.icon,
-    required this.color,
-    required this.items,
-  });
-
-  final String category;
-  final IconData icon;
-  final Color color;
-  final List<Widget> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white24,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              color: color.withOpacity(0.15),
-              child: Row(
-                children: [
-                  Icon(icon, size: 18, color: color),
-                  const SizedBox(width: 8),
-                  Text(
-                    category,
-                    style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: color,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(height: 1, thickness: 1),
-            ...items,
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _InstrumentTile extends StatelessWidget {
-  const _InstrumentTile({required this.name, required this.location});
-
-  final String name;
-  final String location;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      leading: const Icon(Icons.medical_services_outlined, size: 20, color: Colors.blueGrey),
-      title: Text(
-        name,
-        style: const TextStyle(
-          fontFamily: 'Nunito',
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-        ),
-      ),
-      trailing: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          location,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ),
-    );
+  Widget _buildProfilePage() {
+    return ProfilePage();
   }
 }
