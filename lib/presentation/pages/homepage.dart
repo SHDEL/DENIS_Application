@@ -1,13 +1,16 @@
 
 import 'package:denis/presentation/widgets/camera_widget.dart';
+import 'package:denis/presentation/widgets/home_user_widget.dart';
 import 'package:denis/presentation/widgets/home_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.role});
 
   final String title;
+  final String? role;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -23,9 +26,41 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<NavigationRailDestination> get _webDestinations {
+    List<NavigationRailDestination> items = [
+      NavigationRailDestination(icon: ImageIcon(AssetImage('assets/icons/Home.png')), label: const Text('Home')),
+    ];
+
+    if (widget.role == 'ADMIN') {
+       items.add(NavigationRailDestination(icon: ImageIcon(AssetImage('assets/icons/package_search.png')), label: const Text('Stock')));
+    }
+    else{
+      items.add(NavigationRailDestination(icon: ImageIcon(AssetImage('assets/icons/Search.png')), label: const Text('Search')));
+    }
+    items.add(NavigationRailDestination(icon: ImageIcon(AssetImage('assets/icons/Archive.png')), label: const Text('Request')));
+    items.add(NavigationRailDestination(icon: ImageIcon(AssetImage('assets/icons/User_alt.png')), label: const Text('Profile')));
+    return items;
+  }
+
+  List<BottomNavigationBarItem> get _mobileDestinations {
+    List<BottomNavigationBarItem> items = [
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/Home.png')), label: ''),
+    ];
+
+    if (widget.role == 'ADMIN') {
+      items.add(const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/package_search.png')), label: ''));
+    }
+    else{
+      items.add(const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/Search.png')), label: ''));
+    }
+    items.add(const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/Archive.png')), label: ''));
+    items.add(const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/User_alt.png')), label: ''));
+    return items;
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    
     if (kIsWeb){
       return Scaffold(
         backgroundColor: Colors.white,
@@ -41,20 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontWeight: FontWeight.w700,
                   fontSize: 13,
                 ),
-                destinations: const [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.search),
-                    label: Text('Search'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.person),
-                    label: Text('Profile'),
-                  ),
-                ],
+                destinations: _webDestinations,
               ),
               const VerticalDivider(thickness: 1, width: 1),
               // This is the main content.
@@ -64,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: currentPage == 0
                       ? _buildWebHomePage()
                       : currentPage == 1
-                          ? _buildWebSearchPage()
+                      ? _buildWebSearchPage()
+                      : currentPage == 2
+                      ? _buildWebOrderPage()
                           : const Center(
                               child: Text(
                                 'Profile',
@@ -107,20 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         currentIndex: currentPage,
         onTap: _onTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '',
-          ),
-        ],
+        items: _mobileDestinations,
       ),
     );
   }
@@ -205,70 +216,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildWebHomePage() {
-    // return Padding(
-    //   padding: const EdgeInsets.all(24.0),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.stretch,
-    //     children: [
-    //       // Camera feed mockup — roughly half the available height
-    //       Flexible(
-    //         flex: 1,
-    //         child: CameraWidget(),
-    //       ),
-    //       const SizedBox(height: 24),
-    //       // Bottom half — dental instrument list
-    //       Flexible(
-    //         flex: 1,
-    //         child: Container(
-    //           decoration: BoxDecoration(
-    //             color: Colors.white24,
-    //             borderRadius: BorderRadius.circular(12),
-    //           ),
-    //           child: ClipRRect(
-    //             borderRadius: BorderRadius.circular(12),
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.stretch,
-    //               children: [
-    //                 Container(
-    //                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    //                   color: Colors.white30,
-    //                   child: const Text(
-    //                     'Instrument Inventory',
-    //                     style: TextStyle(
-    //                       fontFamily: 'Nunito',
-    //                       fontWeight: FontWeight.w700,
-    //                       fontSize: 15,
-    //                       color: Colors.black87,
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 const Divider(height: 1, thickness: 1),
-    //                 Expanded(
-    //                   child: ListView(
-    //                     padding: const EdgeInsets.symmetric(vertical: 4),
-    //                     children: const [
-    //                       _InstrumentTile(name: 'Hemostat',              location: 'Shelf A1'),
-    //                       _InstrumentTile(name: 'Tissue Scissors',       location: 'Shelf A2'),
-    //                       _InstrumentTile(name: 'Dental Mirror',         location: 'Shelf B1'),
-    //                       _InstrumentTile(name: 'Explorer Probe',        location: 'Shelf B2'),
-    //                       _InstrumentTile(name: 'Dental Forceps',        location: 'Shelf B3'),
-    //                       _InstrumentTile(name: 'Scalpel Handle',        location: 'Shelf C1'),
-    //                       _InstrumentTile(name: 'Periosteal Elevator',   location: 'Shelf C2'),
-    //                       _InstrumentTile(name: 'Cheek Retractor',       location: 'Shelf C3'),
-    //                       _InstrumentTile(name: 'Amalgam Condenser',     location: 'Shelf D1'),
-    //                       _InstrumentTile(name: 'Saliva Ejector',        location: 'Shelf D2'),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-    return HomeWidget();
+    if (widget.role == 'ADMIN') {
+      return HomeAdminWidget();
+      
+    }
+    else {
+      return HomeUserWidget();
+    }
+  }
+
+  Widget _buildWebOrderPage() {
+    return const Center(
+      child: Text('Order Page - Coming Soon', style: TextStyle(fontSize: 24)),
+    );
   }
 }
 

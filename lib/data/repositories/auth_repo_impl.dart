@@ -12,12 +12,16 @@ class AuthRepoImpl extends AuthRepository{
   AuthRepoImpl();
 
   @override
-  Future<String> signIn(String email, String password) async{
+  Future<Map<String, dynamic>> signIn(String email, String password) async{
     try {
       UserCredential credential = await _authService.signIn(email, password);
       String uid = credential.user!.uid;
-      // await _connector.getUserByEmail(email: email, password: password).execute();
-      return uid;
+      final result = await _connector.getRoleById(id: uid).execute();
+      String role = "USER";
+      if (result.data.user != null) {
+        role = result.data.user!.role;
+      }
+      return {'uid': uid, 'role': role};
     } catch (e) {
       rethrow;
     }

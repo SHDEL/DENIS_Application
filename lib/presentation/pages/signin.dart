@@ -24,13 +24,8 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
-    // 2. กำหนดค่าที่นี่
     _authRepo = AuthRepoImpl();
   }
-
-  VoidCallback? get onPressedSignIn => () {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-  };
 
 
   VoidCallback? get onPressedSignUp => () {
@@ -40,16 +35,18 @@ class _SignInPageState extends State<SignInPage> {
   Future<void> _handleSignIn() async {
     
     try {
-      final String userId = await _authRepo.signIn(
+      final result = await _authRepo.signIn(
         _usernameCon.text, 
         _passwordCon.text
       );
 
-      print('User signed in with UID: $userId');
+      // if (result != null){
+      //   print('User signed in with UID: ${result['uid']} and Role: ${result['role']}');
+      // }
 
-      if (mounted) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-      }
+      // if (mounted) {
+      //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
+      // }
     } catch (e) {
       print(e);
     }

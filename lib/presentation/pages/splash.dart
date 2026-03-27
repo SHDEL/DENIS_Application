@@ -15,7 +15,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState(){
     super.initState();
-    redirect();
   }
 
   @override
@@ -25,12 +24,5 @@ class _SplashPageState extends State<SplashPage> {
         child: SvgPicture.asset('assets/image/DenisTextIcon.svg'),
       ),
     );
-  }
-
-  Future<void> redirect() async {
-    await Future.delayed(const Duration(seconds: 3)); // รอ 3 วินาที
-    if (mounted) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const PreSignupPage())); 
-    }
   }
 }

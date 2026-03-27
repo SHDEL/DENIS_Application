@@ -7,6 +7,8 @@ part 'get_user_by_id.dart';
 
 part 'get_user_by_email.dart';
 
+part 'get_role_by_id.dart';
+
 part 'create_user.dart';
 
 
@@ -25,6 +27,11 @@ class ExampleConnector {
   
   GetUserByEmailVariablesBuilder getUserByEmail ({required String email, required String password, }) {
     return GetUserByEmailVariablesBuilder(dataConnect, email: email,password: password,);
+  }
+  
+  
+  GetRoleByIdVariablesBuilder getRoleById ({required String id, }) {
+    return GetRoleByIdVariablesBuilder(dataConnect, id: id,);
   }
   
   

@@ -38,9 +38,9 @@ class _SignUpPageState extends State<SignUpPage> {
         _passwordCon.text
       );
 
-      if (mounted) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-      }
+      // if (mounted) {
+      //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
+      // }
     } catch (e) {
       print(e);
     }

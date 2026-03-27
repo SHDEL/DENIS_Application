@@ -3,19 +3,17 @@ import 'package:denis/presentation/widgets/camera_widget.dart';
 import 'package:denis/presentation/widgets/category_button.dart';
 import 'package:denis/presentation/widgets/instrument_grid.dart';
 import 'package:denis/presentation/widgets/instrument_list.dart';
-import 'package:denis/presentation/widgets/primary_app_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 
-class HomeAdminWidget extends StatefulWidget {
-  const HomeAdminWidget({super.key});
+class HomeUserWidget extends StatefulWidget {
+  const HomeUserWidget({super.key});
 
   @override
-  State<HomeAdminWidget> createState() => _HomeAdminWidgetState();
+  State<HomeUserWidget> createState() => _HomeUserWidgetState();
 }
 
-class _HomeAdminWidgetState extends State<HomeAdminWidget> {
+class _HomeUserWidgetState extends State<HomeUserWidget> {
+
   final List<String> _categories = [
     'All',
     'Examination',
@@ -31,7 +29,6 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
   late List<bool> _selected;
   bool _selectAll = false;
   bool _isGridMode = false;
-  double paddingValue = 16.0;
 
   @override
   void initState() {
@@ -51,12 +48,9 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb){
-      paddingValue = 48.0;
-    }
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(paddingValue),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -138,4 +132,3 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
     );
   }
 }
-
