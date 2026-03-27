@@ -3,6 +3,7 @@ import 'package:denis/presentation/widgets/camera_widget.dart';
 import 'package:denis/presentation/widgets/category_button.dart';
 import 'package:denis/presentation/widgets/instrument_grid.dart';
 import 'package:denis/presentation/widgets/instrument_list.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomeUserWidget extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
   late List<bool> _selected;
   bool _selectAll = false;
   bool _isGridMode = false;
+  double paddingValue = 16.0;
 
   @override
   void initState() {
@@ -48,9 +50,12 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb){
+      paddingValue = 48.0;
+    }
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(paddingValue),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
