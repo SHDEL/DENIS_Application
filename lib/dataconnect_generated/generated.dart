@@ -3,6 +3,10 @@ import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
+part 'get_category_carousel.dart';
+
+part 'get_all_instruments_and_categories.dart';
+
 part 'get_user_by_id.dart';
 
 part 'get_role_by_id.dart';
@@ -16,6 +20,16 @@ part 'create_user.dart';
 
 
 class ExampleConnector {
+  
+  
+  GetCategoryCarouselVariablesBuilder getCategoryCarousel () {
+    return GetCategoryCarouselVariablesBuilder(dataConnect, );
+  }
+  
+  
+  GetAllInstrumentsAndCategoriesVariablesBuilder getAllInstrumentsAndCategories () {
+    return GetAllInstrumentsAndCategoriesVariablesBuilder(dataConnect, );
+  }
   
   
   GetUserByIdVariablesBuilder getUserById ({required String id, }) {

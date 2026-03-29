@@ -21,6 +21,88 @@ ExampleConnector.instance.dataConnect.useDataConnectEmulator(host, port);
 You can also call queries and mutations by using the connector class.
 ## Queries
 
+### GetCategoryCarousel
+#### Required Arguments
+```dart
+// No required arguments
+ExampleConnector.instance.getCategoryCarousel().execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetCategoryCarouselData, void>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getCategoryCarousel();
+GetCategoryCarouselData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+final ref = ExampleConnector.instance.getCategoryCarousel().ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
+### GetAllInstrumentsAndCategories
+#### Required Arguments
+```dart
+// No required arguments
+ExampleConnector.instance.getAllInstrumentsAndCategories().execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetAllInstrumentsAndCategoriesData, void>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getAllInstrumentsAndCategories();
+GetAllInstrumentsAndCategoriesData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+final ref = ExampleConnector.instance.getAllInstrumentsAndCategories().ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
 ### GetUserById
 #### Required Arguments
 ```dart
