@@ -5,8 +5,6 @@ import 'dart:convert';
 
 part 'get_user_by_id.dart';
 
-part 'get_user_by_email.dart';
-
 part 'get_role_by_id.dart';
 
 part 'create_user.dart';
@@ -22,11 +20,6 @@ class ExampleConnector {
   
   GetUserByIdVariablesBuilder getUserById ({required String id, }) {
     return GetUserByIdVariablesBuilder(dataConnect, id: id,);
-  }
-  
-  
-  GetUserByEmailVariablesBuilder getUserByEmail ({required String email, required String password, }) {
-    return GetUserByEmailVariablesBuilder(dataConnect, email: email,password: password,);
   }
   
   
