@@ -53,3 +53,6 @@ app.*.map.json
 
 # dataconnect firebase
 /dataconnect
+
+# agent cloud functions
+.agents
