@@ -1,5 +1,5 @@
 import 'package:denis/presentation/theme/app_colors.dart';
-import 'package:denis/presentation/widgets/camera_widget.dart';
+import 'package:denis/presentation/widgets/homewidget/camera_widget.dart';
 import 'package:denis/presentation/widgets/category_button.dart';
 import 'package:denis/presentation/widgets/instrument_grid.dart';
 import 'package:denis/presentation/widgets/instrument_list.dart';
@@ -120,7 +120,7 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
                 setState(() {
                   isSelectionMode = x;
                 });
-              },
+              }, instruments: [],
               )
               : InstrumentList(
                 isSelectionMode: isSelectionMode,
@@ -129,7 +129,7 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
                   setState(() {
                     isSelectionMode = x;
                   });
-                },
+                }, instruments: [],
               )
             ,
           ],

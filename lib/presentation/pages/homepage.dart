@@ -1,9 +1,9 @@
 
 import 'package:denis/presentation/pages/orderpage.dart';
 import 'package:denis/presentation/pages/profile.dart';
-import 'package:denis/presentation/widgets/camera_widget.dart';
-import 'package:denis/presentation/widgets/home_user_widget.dart';
-import 'package:denis/presentation/widgets/home_widget.dart';
+import 'package:denis/presentation/widgets/homewidget/camera_widget.dart';
+import 'package:denis/presentation/widgets/homewidget/home_user_widget.dart';
+import 'package:denis/presentation/widgets/homewidget/home_admin_widget.dart';
 import 'package:denis/presentation/widgets/order_user_widget.dart';
 import 'package:denis/presentation/pages/request_manage._widget.dart';
 import 'package:denis/presentation/pages/search_admin_page.dart';
