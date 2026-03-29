@@ -1,12 +1,13 @@
 
+import 'package:denis/presentation/pages/orderpage.dart';
 import 'package:denis/presentation/pages/profile.dart';
 import 'package:denis/presentation/widgets/camera_widget.dart';
 import 'package:denis/presentation/widgets/home_user_widget.dart';
 import 'package:denis/presentation/widgets/home_widget.dart';
 import 'package:denis/presentation/widgets/order_user_widget.dart';
-import 'package:denis/presentation/widgets/request_manage._widget.dart';
-import 'package:denis/presentation/widgets/search_admin_widget.dart';
-import 'package:denis/presentation/widgets/search_user_widget.dart';
+import 'package:denis/presentation/pages/request_manage._widget.dart';
+import 'package:denis/presentation/pages/search_admin_page.dart';
+import 'package:denis/presentation/pages/search_user_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -161,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
       
     }
     else {
-      return OrderUserWidget();
+      return OrderPage();
     }
   }
 

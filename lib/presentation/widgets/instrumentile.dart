@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InstrumentTile extends StatefulWidget {
-  const InstrumentTile({super.key, required this.name, required this.location});
+  const InstrumentTile({super.key, required this.name, required this.location, this.onTap});
   final String name;
   final String location;
+  final VoidCallback? onTap;
   @override
   State<InstrumentTile> createState() => _InstrumentTileState();
 }
@@ -15,6 +16,7 @@ class _InstrumentTileState extends State<InstrumentTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: widget.onTap ?? () {}, // ให้คลิกได้
       dense: true,
       leading: const Icon(Icons.medical_services_outlined, size: 20, color: Colors.blueGrey),
       title: Text(

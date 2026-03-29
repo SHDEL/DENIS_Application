@@ -28,7 +28,6 @@ class _CategorySectionState extends State<CategorySection> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white24,
         borderRadius: BorderRadius.circular(12),
       ),
       child: ClipRRect(
@@ -38,7 +37,6 @@ class _CategorySectionState extends State<CategorySection> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              color: color.withOpacity(0.15),
               child: Row(
                 children: [
                   Icon(icon, size: 18, color: color),

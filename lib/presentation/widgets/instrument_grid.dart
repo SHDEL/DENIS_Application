@@ -32,53 +32,78 @@ class _InstrumentGridState extends State<InstrumentGrid> {
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.selectedList.length,
+      itemCount: 6, // เปลี่ยนเป็นแสดงข้อมูลดัมมี่ 6 อันเหมือนใน search_user_widget
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        childAspectRatio: 0.8, // ปรับสัดส่วนให้เหมือน search_user_widget
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
       ),
       itemBuilder: (_, int index) {
-        return 
-          GridTile(
-            child: Container(
-              decoration: 
-                BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.20),
-                      blurRadius: 24,
-                      spreadRadius: 0,
-                      offset: Offset(0, 1),
-                    )
-                  ],
-                ),
-              child:Material(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(28),
-                clipBehavior: Clip.hardEdge, // ตัดขอบ Ripple ไม่ให้เกินมุมโค้ง
-                child: InkWell(
-                  onTap: () {
-                    if (widget.isSelectionMode) {
-                      _toggle(index);
-                    } else {
-                      // TODO: ใส่คำสั่งเมื่อกดในโหมดปกติ เช่น เปิดหน้ารายละเอียด
-                      print("Item $index Clicked");
-                    }
-                  },
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.image),
-                        Text("Item"),
-                      ],
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(24),
+              onTap: () {
+                if (widget.isSelectionMode) {
+                  _toggle(index);
+                } else {
+                  print("Item $index Clicked");
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Center(
+                        // จำลองรูปภาพดัมมี่ให้เหมือนกัน
+                        child: Icon(Icons.cut, size: 50, color: Colors.grey.shade300),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Hemostat',
+                      style: TextStyle(
+                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        'Shelf A2',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
+          ),
         );
       },
     );

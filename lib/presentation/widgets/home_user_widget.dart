@@ -113,23 +113,23 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
             // ส่วนแสดง list/grid
             _isGridMode 
               ? InstrumentGrid(
-                isSelectionMode: isSelectionMode,
-                selectedList: _selected,
-                onSelectionChange: (bool x) {
-                setState(() {
-                  isSelectionMode = x;
-                });
-              },
-              )
-              : InstrumentList(
-                isSelectionMode: isSelectionMode,
-                selectedList: _selected,
-                onSelectionChange: (bool x) {
+                  isSelectionMode: isSelectionMode,
+                  selectedList: _selected,
+                  onSelectionChange: (bool x) {
                   setState(() {
                     isSelectionMode = x;
                   });
                 },
               )
+              : InstrumentList(
+                  isSelectionMode: isSelectionMode,
+                  selectedList: _selected,
+                  onSelectionChange: (bool x) {
+                    setState(() {
+                      isSelectionMode = x;
+                    });
+                  },
+               )
             ,
           ],
         ),
