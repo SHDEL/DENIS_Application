@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:denis/dataconnect_generated/generated.dart';
 import 'package:denis/firebase_options.dart';
 import 'package:denis/presentation/pages/homepage.dart';
 import 'package:denis/presentation/pages/signin.dart';
 import 'package:denis/presentation/pages/splash.dart';
 import 'package:denis/presentation/theme/app_theme.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 Future<void> main() async {
@@ -17,6 +20,24 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+
+  // ---------- เพิ่มการตั้งค่า Emulator ตรงนี้ ----------
+  if (kDebugMode) {
+    print("Running in Debug Mode: Connecting to Local Emulators");
+    try {
+      // ตั้งค่า Host ให้ถูกต้อง (ปกติเป็น localhost, แต่สำหรับ Android Emulator บางทีต้องเป็น 10.0.2.2)
+      final emulatorHost = !kIsWeb && Platform.isAndroid ? '10.0.2.2' : 'localhost';
+      
+      // 2. เชื่อมต่อ Firebase Data Connect Emulator (พอร์ตค่าเริ่มต้นปกติคือ 9399)
+      ExampleConnector.instance.dataConnect.useDataConnectEmulator(emulatorHost, 9399);
+
+      // (ถ้าคุณมีใช้ Firestore ร่วมด้วย ก็เพิ่มของ Firestore ลงไป)
+      // FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+      
+    } catch (e) {
+      print('Failed to connect to emulators: $e');
+    }
+  }
 
   runApp(const MyApp());
 }

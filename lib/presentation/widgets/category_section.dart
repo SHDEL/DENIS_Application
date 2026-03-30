@@ -4,13 +4,11 @@ class CategorySection extends StatefulWidget {
   const CategorySection({
     super.key,
     required this.category,
-    required this.icon,
     required this.color,
     required this.items,
     });
 
   final String category;
-  final IconData icon;
   final Color color;
   final List<Widget> items;
 
@@ -20,7 +18,6 @@ class CategorySection extends StatefulWidget {
 
 class _CategorySectionState extends State<CategorySection> {
   Color get color => widget.color;
-  IconData get icon => widget.icon;
   String get category => widget.category;
   List<Widget> get items => widget.items;
 
@@ -39,13 +36,12 @@ class _CategorySectionState extends State<CategorySection> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 children: [
-                  Icon(icon, size: 18, color: color),
                   const SizedBox(width: 8),
                   Text(
                     category,
                     style: TextStyle(
                       fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.bold,
                       fontSize: 14,
                       color: color,
                     ),

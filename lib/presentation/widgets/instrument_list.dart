@@ -1,4 +1,5 @@
 
+import 'package:denis/presentation/widgets/instruments_details.dart';
 import 'package:flutter/material.dart';
 import 'package:denis/presentation/theme/app_colors.dart';
 import 'package:denis/dataconnect_generated/generated.dart';
@@ -50,25 +51,50 @@ class _InstrumentListState extends State<InstrumentList> {
           color: Color(0xFFD7D7D7),
         ),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(widget.instruments[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
-            trailing: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1), // พื้นหลังสีจาง
-                borderRadius: BorderRadius.circular(20), // ขอบมนเป็น Tag
-              ),
-              child: const Text(
-                'Shelf A1',
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
+          final instrument = widget.instruments[index];
+          final shelfText = instrument.stocks_on_instrument.isNotEmpty 
+              ? instrument.stocks_on_instrument.first.shelf 
+              : 'No Shelf';
+          return Material(
+            color: Colors.transparent, // ปล่อยให้สีพื้นเป็นใสเพื่อให้เห็นสีขาวของ Container ภายนอก
+            child: InkWell(
+              onTap: () {
+                if (widget.isSelectionMode) {
+                  _toggle(index);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InstrumentsDetailsWidget(
+                        instrument: instrument, 
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: ListTile(
+                // เอา onTap ออกจาก ListTile เพราะเราไปดักจับที่ InkWell แทนแล้ว
+                title: Text(
+                  widget.instruments[index].name, 
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                trailing: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Shelf $shelfText',
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
               ),
             ),
-            // subtitle: Text('Shelf A1', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),),
-            
           );
         },
       ),

@@ -1,3 +1,4 @@
+import 'package:denis/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class InstrumentTile extends StatefulWidget {
@@ -18,7 +19,6 @@ class _InstrumentTileState extends State<InstrumentTile> {
     return ListTile(
       onTap: widget.onTap ?? () {}, // ให้คลิกได้
       dense: true,
-      leading: const Icon(Icons.medical_services_outlined, size: 20, color: Colors.blueGrey),
       title: Text(
         name,
         style: const TextStyle(
@@ -30,7 +30,7 @@ class _InstrumentTileState extends State<InstrumentTile> {
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.blueGrey.withOpacity(0.15),
+          color: AppColors.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -38,8 +38,8 @@ class _InstrumentTileState extends State<InstrumentTile> {
           style: const TextStyle(
             fontFamily: 'Nunito',
             fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: Colors.blueGrey,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
           ),
         ),
       ),

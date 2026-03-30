@@ -1,4 +1,5 @@
 // ด้านบนของ import อย่าลืม import 'package:denis/dataconnect_generated/generated.dart';
+import 'package:denis/presentation/widgets/instruments_details.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:denis/dataconnect_generated/generated.dart';
@@ -16,6 +17,7 @@ class InstrumentGrid extends StatefulWidget {
   final ValueChanged<bool>? onSelectionChange;
   final List<bool> selectedList;
   final List<GetAllInstrumentsAndCategoriesInstruments> instruments; // เพิ่มพารามิเตอร์นี้
+  
 
   @override
   State<InstrumentGrid> createState() => _InstrumentGridState();
@@ -32,6 +34,7 @@ class _InstrumentGridState extends State<InstrumentGrid> {
       });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,10 @@ class _InstrumentGridState extends State<InstrumentGrid> {
         mainAxisSpacing: 16,
       ),
       itemBuilder: (_, int index) {
+        final instrument = widget.instruments[index];
+        final shelfText = instrument.stocks_on_instrument.isNotEmpty 
+            ? instrument.stocks_on_instrument.first.shelf 
+            : 'No Shelf';
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -70,7 +77,12 @@ class _InstrumentGridState extends State<InstrumentGrid> {
                 if (widget.isSelectionMode) {
                   _toggle(index);
                 } else {
-                  print("Item $index Clicked");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InstrumentsDetailsWidget(instrument: instrument), // ส่งข้อมูล instruments ไปด้วย
+                    ),
+                  );
                 }
               },
               child: Padding(
@@ -102,8 +114,8 @@ class _InstrumentGridState extends State<InstrumentGrid> {
                         color: Colors.deepPurple,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
-                        'Shelf A2',
+                      child: Text(
+                        'Shelf $shelfText',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,

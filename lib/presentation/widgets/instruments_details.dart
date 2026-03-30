@@ -1,16 +1,41 @@
+import 'package:denis/dataconnect_generated/generated.dart';
+import 'package:denis/presentation/widgets/addtocart_dialog_widget.dart';
 import 'package:denis/presentation/widgets/primary_app_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:flutter/material.dart';
 
 class InstrumentsDetailsWidget extends StatefulWidget {
-  const InstrumentsDetailsWidget({super.key});
-
+  const InstrumentsDetailsWidget({super.key, required this.instrument, });
+  
   @override
   State<InstrumentsDetailsWidget> createState() => _InstrumentsDetailsWidgetState();
+  final GetAllInstrumentsAndCategoriesInstruments instrument;
+  
+ 
 }
 
 class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
+   late Future<QueryResult<GetAllInstrumentsAndCategoriesData, void>> _dataFuture;
+  @override
+  void initState() {
+    super.initState();
+    // ดึงข้อมูลเมื่อเปิดหน้า
+    _dataFuture = ExampleConnector.instance.getAllInstrumentsAndCategories().execute();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // 2. ดึงข้อมูล Shelf และ Stock (qty) จาก instrument ที่ถูกส่งมา
+    final shelfText = widget.instrument.stocks_on_instrument.isNotEmpty 
+        ? widget.instrument.stocks_on_instrument.first.shelf 
+        : 'No Shelf';
+    final currentQty = widget.instrument.stocks_on_instrument.isNotEmpty 
+        ? widget.instrument.stocks_on_instrument.first.inStockQty.toString() 
+        : '0';
+    final inUseQty = widget.instrument.stocks_on_instrument.isNotEmpty 
+        ? widget.instrument.stocks_on_instrument.first.inUseQty.toString() 
+        : '0';
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA), // สีพื้นหลังเทาอ่อนตามในภาพ
       body: SafeArea(
@@ -52,11 +77,9 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
             // 2. ส่วนรูปภาพตรงกลาง (จำลองด้วยไอคอนก่อน เนื่องจากไม่มีรูปเครื่องมือจริงๆ)
             Expanded(
               child: Center(
-                child: Icon(
-                  Icons.content_cut, // จำลองกรรไกร/คีม
-                  size: 180,
-                  color: Colors.grey.shade400, // สีเทาๆ คล้ายภาพที่มีพื้นหลังโปร่ง
-                ),
+                child: widget.instrument.imageUrl.isNotEmpty
+                  ? Image.network(widget.instrument.imageUrl, fit: BoxFit.contain)
+                  : Icon(Icons.cut, size: 180, color: Colors.grey.shade400),
               ),
             ),
 
@@ -82,8 +105,8 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                 mainAxisSize: MainAxisSize.min, // ให้กล่องหดตามเนื้อหาภายใน
                 children: [
                   // Title
-                  const Text(
-                    'Artery Forceps',
+                  Text(
+                    widget.instrument.name, // แสดงชื่อเครื่องมือ
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -94,23 +117,23 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                   
                   // Status Row (In Stock, In Use, Sterilize)
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      _buildStatusIndicator(Colors.green, 'In Stock:', '5'),
-                      _buildStatusIndicator(Colors.blue, 'In Use:', '5'),
-                      _buildStatusIndicator(Colors.red, 'Sterilize:', '5'),
+                      _buildStatusIndicator(Colors.green, 'In Stock:', currentQty),
+                      const SizedBox(width: 16),
+                      _buildStatusIndicator(Colors.blue, 'In Use:', inUseQty),
                     ],
                   ),
                   const SizedBox(height: 24),
                   
                   // Shelf Info
                   RichText(
-                    text: const TextSpan(
+                    text: TextSpan(
                       style: TextStyle(fontSize: 16, color: Colors.black87, fontFamily: 'Nunito'),
                       children: [
                         TextSpan(text: 'Shelf: '),
                         TextSpan(
-                          text: 'A2',
+                          text: shelfText,
                           style: TextStyle(
                             color: Colors.deepPurple,
                             fontWeight: FontWeight.bold,
@@ -135,8 +158,8 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                           color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Text(
-                          'Surgical',
+                        child: Text(
+                          widget.instrument.category.name, // แสดงชื่อหมวดหมู่เครื่องมือ
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -149,7 +172,7 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                   const SizedBox(height: 28),
                   
                   // Description Label
-                  const Text(
+                  Text(
                     'Description',
                     style: TextStyle(
                       fontSize: 18,
@@ -160,8 +183,8 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                   const SizedBox(height: 12),
                   
                   // Description Details
-                  const Text(
-                    'Artery forceps, also known as hemostats or artery clamps, are stainless steel surgical instruments designed to clamp blood vessels and tissues to control bleeding (hemostasis)',
+                  Text(
+                    widget.instrument.description, // แสดงคำอธิบายเครื่องมือ
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.black87,
@@ -175,8 +198,35 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryAppButton(
-                      onPressed: () {
-                        _showAddToCartDialog(context);
+                      onPressed: () async {
+                        final currentUser = FirebaseAuth.instance.currentUser;
+                        final userId = currentUser!.uid;
+                        final cart = await ExampleConnector.instance.getCartByUserId(userId: userId).execute();
+                        String activeCartId;
+                          if (cart.data?.carts.isEmpty == true) {
+                            // ถ้าไม่มี cart ให้สร้างใหม่
+                            final result  = await ExampleConnector.instance.createCart(userId: userId, quantity: 1).execute();
+                            activeCartId = result.data!.cart_insert.id;
+                            Future.delayed(const Duration(seconds: 1));
+                          } else {
+                            activeCartId = cart.data!.carts.first.id;
+                          }
+                          await ExampleConnector.instance.addItemToCart(cartId: activeCartId, instrumentId: widget.instrument.id, quantity: 1).execute();
+                          showDialog(
+                            context: context, 
+                            builder: (context) {
+                              return AddtocartDialogWidget(
+                                instrument: widget.instrument, 
+                                shelfText: shelfText,
+                                cartItemId: activeCartId,
+                              );
+                            }
+                          );
+                        
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   SnackBar(content: Text('เกิดข้อผิดพลาด: $e')),
+                          // );
+                        
                       },
                       text: 'Add to cart',
                     ),
@@ -226,151 +276,6 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
           ),
         ),
       ],
-    );
-  }
-
-  // แสดง Modal / Dialog เวลากด Add to cart
-  void _showAddToCartDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.5), // ทำพื้นหลังสีเทาเบลอแบบในภาพ
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // ให้กล่องพอดีกับเนื้อหา
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Added to your cart!',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Nunito',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ส่วนกล่องรูปภาพเครื่องมือ
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.content_cut,
-                          size: 60,
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    // ส่วนข้อมูลเครื่องมือและการปรับจำนวน
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Artery Forceps',
-                            style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Nunito',
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.deepPurple,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Text(
-                              'Shelf A2',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Nunito',
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          // ปุ่มปรับจำนวนเพิ่มลด (+ / -)
-                          Row(
-                            children: [
-                              Icon(Icons.remove_circle_outline, color: Colors.red.shade600, size: 28),
-                              const SizedBox(width: 16),
-                              const Text(
-                                '1',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              const Icon(Icons.add_circle_outline, color: Colors.deepPurple, size: 28),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                // ปุ่ม Action ด้านล่าง 2 ปุ่ม
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pop(context); // ปิด Dialog
-                        },
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Colors.deepPurple, width: 2),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: const Text(
-                          'Continue Browse',
-                          style: TextStyle(
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            fontFamily: 'Nunito',
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: PrimaryAppButton(
-                        onPressed: (){}, 
-                        text: "View my cart",
-                        padding: const EdgeInsets.symmetric(vertical: 16), // ปรับขนาดความสูงให้พอดีกับปุ่มข้างๆ
-                        fontSize: 14, // ลดขนาดตัวหนังสือลงนิดหน่อย
-                      )
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

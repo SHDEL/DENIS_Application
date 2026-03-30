@@ -61,12 +61,18 @@ class GetAllInstrumentsAndCategoriesInstruments {
   final String name;
   final String imageUrl;
   final GetAllInstrumentsAndCategoriesInstrumentsCategory category;
+  final String description;
+  final List<GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument> stocks_on_instrument;
   GetAllInstrumentsAndCategoriesInstruments.fromJson(dynamic json):
   
   id = nativeFromJson<String>(json['id']),
   name = nativeFromJson<String>(json['name']),
   imageUrl = nativeFromJson<String>(json['imageUrl']),
-  category = GetAllInstrumentsAndCategoriesInstrumentsCategory.fromJson(json['category']);
+  category = GetAllInstrumentsAndCategoriesInstrumentsCategory.fromJson(json['category']),
+  description = nativeFromJson<String>(json['description']),
+  stocks_on_instrument = (json['stocks_on_instrument'] as List<dynamic>)
+        .map((e) => GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument.fromJson(e))
+        .toList();
   @override
   bool operator ==(Object other) {
     if(identical(this, other)) {
@@ -80,11 +86,13 @@ class GetAllInstrumentsAndCategoriesInstruments {
     return id == otherTyped.id && 
     name == otherTyped.name && 
     imageUrl == otherTyped.imageUrl && 
-    category == otherTyped.category;
+    category == otherTyped.category && 
+    description == otherTyped.description && 
+    stocks_on_instrument == otherTyped.stocks_on_instrument;
     
   }
   @override
-  int get hashCode => Object.hashAll([id.hashCode, name.hashCode, imageUrl.hashCode, category.hashCode]);
+  int get hashCode => Object.hashAll([id.hashCode, name.hashCode, imageUrl.hashCode, category.hashCode, description.hashCode, stocks_on_instrument.hashCode]);
   
 
   Map<String, dynamic> toJson() {
@@ -93,6 +101,8 @@ class GetAllInstrumentsAndCategoriesInstruments {
     json['name'] = nativeToJson<String>(name);
     json['imageUrl'] = nativeToJson<String>(imageUrl);
     json['category'] = category.toJson();
+    json['description'] = nativeToJson<String>(description);
+    json['stocks_on_instrument'] = stocks_on_instrument.map((e) => e.toJson()).toList();
     return json;
   }
 
@@ -101,6 +111,8 @@ class GetAllInstrumentsAndCategoriesInstruments {
     required this.name,
     required this.imageUrl,
     required this.category,
+    required this.description,
+    required this.stocks_on_instrument,
   });
 }
 
@@ -140,6 +152,55 @@ class GetAllInstrumentsAndCategoriesInstrumentsCategory {
   GetAllInstrumentsAndCategoriesInstrumentsCategory({
     required this.id,
     required this.name,
+  });
+}
+
+@immutable
+class GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument {
+  final String id;
+  final int inStockQty;
+  final int inUseQty;
+  final String shelf;
+  GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument.fromJson(dynamic json):
+  
+  id = nativeFromJson<String>(json['id']),
+  inStockQty = nativeFromJson<int>(json['inStockQty']),
+  inUseQty = nativeFromJson<int>(json['inUseQty']),
+  shelf = nativeFromJson<String>(json['shelf']);
+  @override
+  bool operator ==(Object other) {
+    if(identical(this, other)) {
+      return true;
+    }
+    if(other.runtimeType != runtimeType) {
+      return false;
+    }
+
+    final GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument otherTyped = other as GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument;
+    return id == otherTyped.id && 
+    inStockQty == otherTyped.inStockQty && 
+    inUseQty == otherTyped.inUseQty && 
+    shelf == otherTyped.shelf;
+    
+  }
+  @override
+  int get hashCode => Object.hashAll([id.hashCode, inStockQty.hashCode, inUseQty.hashCode, shelf.hashCode]);
+  
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {};
+    json['id'] = nativeToJson<String>(id);
+    json['inStockQty'] = nativeToJson<int>(inStockQty);
+    json['inUseQty'] = nativeToJson<int>(inUseQty);
+    json['shelf'] = nativeToJson<String>(shelf);
+    return json;
+  }
+
+  GetAllInstrumentsAndCategoriesInstrumentsStocksOnInstrument({
+    required this.id,
+    required this.inStockQty,
+    required this.inUseQty,
+    required this.shelf,
   });
 }
 
