@@ -9,22 +9,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:denis/main.dart';
-
+import 'package:denis/presentation/widgets/primary_app_button.dart';
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('PrimaryAppButton displays text and handles tap', (WidgetTester tester) async {
+    // 1. ตัวแปรสำหรับจับว่าปุ่มโดนกดไหม
+    bool wasPressed = false;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // 2. สร้าง Widget เสมือนขึ้นมาในกระดานเทส (ต้องมี MaterialApp ครอบเสมอเวลาเทสปุ่ม)
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: PrimaryAppButton(
+            text: 'Click Me',
+            onPressed: () {
+              wasPressed = true;
+            },
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // 3. พิสูจน์ (Expect) ว่าปุ่มมีข้อความ 'Click Me' แสดงอยู่จริงๆ
+    expect(find.text('Click Me'), findsOneWidget);
+
+    // 4. สั่งให้บอทเทสเสมือนว่า "เอานิ้วกดลงไปที่เนื้อหา 'Click Me'"
+    await tester.tap(find.text('Click Me'));
+    
+    // สั่งให้จอขยับ/เรนเดอร์เฟรมหลังโดนกด
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // 5. พิสูจน์ว่าฟังก์ชันถูกใช้งาน (wasPressed เปลี่ยนเป็น true)
+    expect(wasPressed, true);
   });
 }

@@ -1,11 +1,10 @@
 
 import 'package:denis/presentation/pages/orderpage.dart';
 import 'package:denis/presentation/pages/profile.dart';
+import 'package:denis/presentation/pages/request_manage._widget.dart';
 import 'package:denis/presentation/widgets/homewidget/camera_widget.dart';
 import 'package:denis/presentation/widgets/homewidget/home_user_widget.dart';
 import 'package:denis/presentation/widgets/homewidget/home_admin_widget.dart';
-import 'package:denis/presentation/widgets/order_user_widget.dart';
-import 'package:denis/presentation/pages/request_manage._widget.dart';
 import 'package:denis/presentation/pages/search_admin_page.dart';
 import 'package:denis/presentation/pages/search_user_page.dart';
 import 'package:flutter/foundation.dart';
@@ -13,19 +12,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.role});
+  
 
   final String title;
   final String? role;
-
+  final int initialPage;
+  const MyHomePage({
+    super.key, 
+    required this.title, 
+    required this.role,
+    this.initialPage = 0
+  });
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late int currentPage;
 
-  int currentPage = 0;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentPage = widget.initialPage;
+  }
   void _onTapped(int index) {
     setState(() {
       currentPage = index;
@@ -70,8 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (kIsWeb){
       return Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Row(
+        body: Row(
             children: [
               NavigationRail(
                 selectedIndex: currentPage,
@@ -89,18 +98,16 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 child: Container(
                   color: Colors.white,
-                  child: currentPage == 0
-                      ? _buildWebHomePage()
-                      : currentPage == 1
-                      ? _buildWebSearchPage()
-                      : currentPage == 2
-                      ? _buildWebOrderPage()
-                      : _buildProfilePage()
+                  child: [
+                    _buildWebHomePage(),
+                    _buildWebSearchPage(),
+                    _buildWebOrderPage(),
+                    _buildProfilePage(),
+                  ][currentPage],
                 ),
               )
             ],
           )
-        )
       );
     }
     
@@ -108,13 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: currentPage == 0
-            ? _buildWebHomePage()
-            : currentPage == 1
-            ? _buildWebSearchPage()
-            : currentPage == 2
-            ? _buildWebOrderPage()
-            : _buildProfilePage()
+        child: IndexedStack(
+          index: currentPage,
+          children: [
+            _buildWebHomePage(),
+            _buildWebSearchPage(),
+            _buildWebOrderPage(),
+            _buildProfilePage(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

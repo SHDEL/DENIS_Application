@@ -9,14 +9,18 @@ class InstrumentGrid extends StatefulWidget {
     required this.isSelectionMode,
     required this.onSelectionChange,
     required this.selectedList,
-    required this.instruments, // เพิ่มพารามิเตอร์นี้
-    super.key
+    required this.instruments,
+    this.detectedCounts, // เพิ่มพารามิเตอร์นี้
+    required this.userRole,
+    super.key,
     });
 
   final bool isSelectionMode;
   final ValueChanged<bool>? onSelectionChange;
   final List<bool> selectedList;
-  final List<GetAllInstrumentsAndCategoriesInstruments> instruments; // เพิ่มพารามิเตอร์นี้
+  final List<GetAllInstrumentsAndCategoriesInstruments> instruments;
+  final String userRole;
+  final Map<String, int>? detectedCounts; // เพิ่มพารามิเตอร์นี้
   
 
   @override
@@ -80,7 +84,7 @@ class _InstrumentGridState extends State<InstrumentGrid> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => InstrumentsDetailsWidget(instrument: instrument), // ส่งข้อมูล instruments ไปด้วย
+                      builder: (context) => InstrumentsDetailsWidget(instrument: instrument, userRole: widget.userRole),
                     ),
                   );
                 }

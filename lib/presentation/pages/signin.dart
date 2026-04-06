@@ -66,7 +66,7 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(height: 24),
                   PrimaryInput(text: 'Username or Email', controller: _usernameCon),
                   const SizedBox(height: 24),
-                  PrimaryInput(text: 'Password', controller: _passwordCon),
+                  PrimaryInput(text: 'Password', controller: _passwordCon, isPassword: true),
                   const SizedBox(height: 44),
                   PrimaryAppButton(onPressed: _handleSignIn, text: 'Sign In'),
                   const SizedBox(height: 24),

@@ -1,4 +1,8 @@
+import 'package:denis/presentation/widgets/instruments_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:denis/dataconnect_generated/generated.dart';
+import 'package:firebase_data_connect/firebase_data_connect.dart';
 
 class StockSearchAdminWidget extends StatefulWidget {
   const StockSearchAdminWidget({super.key});
@@ -9,22 +13,20 @@ class StockSearchAdminWidget extends StatefulWidget {
 
 class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
   int _selectedTabIndex = 0;
-  final List<String> _tabs = ['All', 'Examination', 'Surgical'];
+  List<String> _tabs = ['All'];
 
-  // Mock Data สำหรับแสดงผลในตาราง
-  final List<Map<String, dynamic>> _mockProducts = [
-    {'name': 'Artery Forceps', 'Category': 'Examination', 'In Stock': 45, 'In Use': 12, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Hydrate replenish', 'Category': 'Scoping', 'In Stock': 45, 'In Use': 65, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Illumination (mask)', 'Category': 'Quoting', 'In Stock': 45, 'In Use': 35, 'Sterilized': 11, 'Shelf': 'B'},
-    {'name': 'Act+ acre hair mask', 'Category': 'Scoping', 'In Stock': 45, 'In Use': 24, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Mecca cosmetica', 'Category': 'Production', 'In Stock': 0, 'In Use': 22, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Hylamide (Glow)', 'Category': 'Scoping', 'In Stock': 45, 'In Use': 86, 'Sterilized': 11, 'Shelf': 'B'},
-    {'name': 'Mecca cosmetica(body oil)', 'Category': 'Scoping', 'In Stock': 45, 'In Use': 68, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Hydrate replenish(body oil)', 'Category': 'Production', 'In Stock': 0, 'In Use': 70, 'Sterilized': 11, 'Shelf': 'C'},
-    {'name': 'Illumination (mask)', 'Category': 'Scoping', 'In Stock': 45, 'In Use': 56, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Mecca cosmetica(body oil)', 'Category': 'Shipped', 'In Stock': 0, 'In Use': 72, 'Sterilized': 11, 'Shelf': 'A'},
-    {'name': 'Mecca cosmetica(body oil)', 'Category': 'Shipped', 'In Stock': 0, 'In Use': 72, 'Sterilized': 11, 'Shelf': 'A'}
-  ];
+  // สร้าง Future สำหรับดึงข้อมูล Stock
+  late Future<QueryResult<GetAllInstrumentsAndCategoriesData, void>> _stockFuture;
+
+  // สำหรับการทำ Checkbox ในแต่ละแถว (เก็บ ID ของ Instrument)
+  Set<String> _selectedItems = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // เรียก DataConnect ใช้ Query เดิมที่มีอยู่แต่เอามาแสดงเป็น Table 
+    _stockFuture = ExampleConnector.instance.getAllInstrumentsAndCategories().execute();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,45 +42,121 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          _buildFiltersAndActions(),
-          const SizedBox(height: 16),
-          // Wrap content in Expanded and ScrollView
+          
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey.shade200),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width > 1048 ? MediaQuery.of(context).size.width - 48 : 1000,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _buildTableHeader(),
-                      const Divider(height: 1),
-                      Expanded(
-                        child: ListView.separated(
-                          itemCount: _mockProducts.length,
-                          separatorBuilder: (context, index) => const Divider(height: 1),
-                          itemBuilder: (context, index) {
-                            final product = _mockProducts[index];
-                            return _buildTableRow(product);
-                          },
+            child: FutureBuilder<QueryResult<GetAllInstrumentsAndCategoriesData, void>>(
+              future: _stockFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                final data = snapshot.data?.data;
+                if (data == null) {
+                  return const Center(child: Text('No data found'));
+                }
+
+                // สร้าง Tabs แจกแจงตาม Categories จาก DB
+                final dbCategories = data.instrumentCategories.map((e) => e.name).toList();
+                if (_tabs.length == 1) {
+                  // ถ้ายังไม่ได้เพิ่ม ให้เพิ่มเข้าระบบ (หลีกเลี่ยง setState ภายใน build)
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted && _tabs.length != dbCategories.length + 1) {
+                        setState(() {
+                        _tabs = ['All', ...dbCategories];
+                      });
+                    }
+                  });
+                }
+
+                // กรองข้อมูลตาม Tab ที่ถูกเลือก
+                final selectedCategory = _tabs.length > _selectedTabIndex ? _tabs[_selectedTabIndex] : 'All';
+                final allInstruments = data.instruments;
+                final filteredInstruments = selectedCategory == 'All' 
+                    ? allInstruments 
+                    : allInstruments.where((item) => item.category.name == selectedCategory).toList();
+
+                return Column(
+                  children: [
+                    _buildFiltersAndActions(),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade200),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width > 1048 ? MediaQuery.of(context).size.width - 48 : 1000,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                _buildTableHeader(),
+                                const Divider(height: 1),
+                                Expanded(
+                                  child: filteredInstruments.isEmpty 
+                                    ? const Center(child: Text("No items in this category."))
+                                    : ListView.separated(
+                                      itemCount: filteredInstruments.length,
+                                      separatorBuilder: (context, index) => const Divider(height: 1),
+                                      itemBuilder: (context, index) {
+                                        final instrument = filteredInstruments[index];
+                                        
+                                        // ดึงข้อมูล Stock ที่ผูกมาด้วย
+                                        final stocks = instrument.stocks_on_instrument;
+                                        final stockInfo = stocks.isNotEmpty ? stocks.first : null;
+                                        
+                                        // แกะค่าออกมาใช้ (ถ้าไม่มี Stock Row ใน DB ถือว่าเป็น 0)
+                                        final inStock = stockInfo?.inStockQty ?? 0;
+                                        final inUse = stockInfo?.inUseQty ?? 0;
+                                        final shelf = stockInfo?.shelf ?? '-';
+                                        // ถ้าต้องการ Sterilized อาจจะคำนวณเอาจาก inUse หรือเว้นไว้ก่อน
+                                        final sterilized = 0; 
+                                        
+                                        return _buildTableRow(
+                                          id: instrument.id,
+                                          name: instrument.name,
+                                          imageUrl: instrument.imageUrl,
+                                          category: instrument.category.name,
+                                          inStock: inStock,
+                                          inUse: inUse,
+                                          sterilized: sterilized,
+                                          shelf: shelf,
+                                          onTap: () {
+                                            final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+                                            final userRoleFuture = ExampleConnector.instance.getRoleById(id: userId).execute();
+                                            userRoleFuture.then((value) {
+                                              final userRole = value.data?.user?.role ?? '';
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => InstrumentsDetailsWidget(instrument: instrument, userRole: userRole)));
+                                            });
+                                            
+                                          }
+                                        );
+                                      },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
+                  ],
+                );
+              }
             ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,10 +209,8 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
                   children: [
                     Row(
                       children: [
-                        if (index == 0) const Icon(Icons.check_circle_outline, size: 16, color: Colors.black54),
-                        if (index == 1) const Icon(Icons.show_chart, size: 16, color: Colors.black54),
-                        if (index == 2) const Icon(Icons.insert_drive_file_outlined, size: 16, color: Colors.black54),
-                        if (index == 3) const Icon(Icons.archive_outlined, size: 16, color: Colors.black54),
+                        if (index == 0) const Icon(Icons.apps, size: 16, color: Colors.black54)
+                        else const Icon(Icons.category, size: 16, color: Colors.black54),
                         const SizedBox(width: 4),
                         Text(
                           _tabs[index],
@@ -178,12 +254,6 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
               icon: const Icon(Icons.sort, size: 16),
               label: const Text('Sort'),
             ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.add, size: 16),
-              label: const Text('Add'),
-            ),
           ],
         )
       ],
@@ -195,7 +265,7 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Row(
         children: [
-          Expanded(flex: 3, child: _headerText('Product')),
+          Expanded(flex: 3, child: _headerText('Instrument')),
           Expanded(flex: 2, child: _headerText('Category')),
           Expanded(flex: 2, child: _headerText('In Stock')),
           Expanded(flex: 2, child: _headerText('In Use')),
@@ -217,97 +287,125 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
     );
   }
 
-  Widget _buildTableRow(Map<String, dynamic> product) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: Row(
-        children: [
-          // 1. Checkbox + Image + Name
-          Expanded(
-            flex: 3,
-            child: Row(
-              children: [
-                Checkbox(value: false, onChanged: (v) {}),
-                Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(6),
+  Widget _buildTableRow({
+    required String id,
+    required String name,
+    required String imageUrl,
+    required String category,
+    required int inStock,
+    required int inUse,
+    required int sterilized,
+    required String shelf,
+    required VoidCallback onTap,
+  }) {
+    bool isChecked = _selectedItems.contains(id);
+
+    return InkWell(
+      onTap: onTap,
+      hoverColor: Colors.grey.shade100,
+      child:
+        Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Row(
+          children: [
+            // 1. Checkbox + Image + Name
+            Expanded(
+              flex: 3,
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: isChecked, 
+                    onChanged: (v) {
+                      setState(() {
+                        if (v == true) {
+                          _selectedItems.add(id);
+                        } else {
+                          _selectedItems.remove(id);
+                        }
+                      });
+                    }
                   ),
-                  child: const Icon(Icons.image, size: 16, color: Colors.grey),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    product['name'],
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                    overflow: TextOverflow.ellipsis,
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(6),
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          // 2. Status Badge
-          Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: _buildStatusBadge(product['Category']),
-            ),
-          ),
-          // 3. In Stock
-          Expanded(
-            flex: 2,
-            child: Text(
-              '${product['In Stock']} in stock',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: product['In Stock'] == 0 ? Colors.red : Colors.black87,
-                fontSize: 13,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      name,
+                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          // 4. In Use
-          Expanded(
-            flex: 2,
-            child: Text('${product['In Use']}', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-          ),
-          // 5. Out of Stock
-          Expanded(
-            flex: 2,
-            child: Text('${product['Sterilized']}', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-          ),
-          // 6. Shelf
-          Expanded(
-            flex: 1,
-            child: Text(product['Shelf'], style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-          ),
-        ],
-      ),
+            // 2. Status Badge (Category)
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: _buildStatusBadge(category),
+              ),
+            ),
+            // 3. In Stock
+            Expanded(
+              flex: 2,
+              child: Text(
+                '$inStock',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: inStock == 0 ? Colors.red : Colors.black87,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+            // 4. In Use
+            Expanded(
+              flex: 2,
+              child: Text('$inUse', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            ),
+            // 5. Sterilized (Mock value set to 0 for now)
+            Expanded(
+              flex: 2,
+              child: Text('$sterilized', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            ),
+            // 6. Shelf
+            Expanded(
+              flex: 1,
+              child: Text(shelf, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            ),
+          ],
+        ),
+      )
     );
   }
 
   Widget _buildStatusBadge(String category) {
-    Color bgColor;
-    Color textColor;
+    // Generate Randomish Colors for each category
+    Color bgColor = Colors.blue.shade50;
+    Color textColor = Colors.blue.shade700;
 
     switch (category.toLowerCase()) {
-      case 'scoping':
+      case 'examination':
         bgColor = Colors.blue.shade50;
         textColor = Colors.blue.shade700;
         break;
-      case 'quoting':
-        bgColor = Colors.green.shade50;
-        textColor = Colors.green.shade700;
+      case 'surgical':
+        bgColor = Colors.red.shade50;
+        textColor = Colors.red.shade700;
         break;
-      case 'production':
+      case 'extraction':
         bgColor = Colors.orange.shade50;
         textColor = Colors.orange.shade800;
-        break;
-      case 'shipped':
-        bgColor = Colors.indigo.shade50;
-        textColor = Colors.indigo.shade700;
         break;
       default:
         bgColor = Colors.grey.shade100;

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -13,57 +14,85 @@ class _ProfilePageState extends State<ProfilePage> {
   double paddingValue = 16.0;
   @override
   Widget build(BuildContext context) {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    // อ่านค่า email และนำมาตัด @ ออก เพื่อแสดงเป็นชื่อ
+    final String displayName = currentUser?.email?.split('@')[0] ?? 'User';
+
     if (kIsWeb){
       paddingValue = 48.0;
     }
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(padding: EdgeInsets.all(paddingValue),
+    
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Padding(
+          // 1. นำ paddingValue มาใช้คลุมเนื้อหาทั้งหมดเพื่อไม่ให้ชิดขอบจอเกินไป
+          padding: EdgeInsets.symmetric(horizontal: paddingValue, vertical: 16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CircleAvatar(
-                radius: 120,
-                backgroundImage: AssetImage('assets/image/profile_placeholder.png'),
-              ),
-              SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.grey[200],
+                        child: const Icon(
+                          Icons.person,
+                          size: 40,
+                          color: Colors.grey,
+                        ),
+                      ), // เหมือนเดิม
+                      const SizedBox(height: 16),
+                      Text(
+                        'Hi, $displayName', // แสดงชื่อตรงนี้
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ), // เหมือนเดิม
+                    ],
+                  ),
+              const SizedBox(height: 32),
+              Column(
                 children: [
-                  Text('Hi,', style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal)),
-                  Text(' John Doe', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  _buildMenuOption('Reserve History'),
+                  _buildDivider(),
+                  _buildMenuOption('Settings'),
+                  _buildDivider(),
+                  _buildMenuOption('About'),
+                  _buildDivider(),
+                  _buildMenuOption('Help  & Supports'),
                 ],
               ),
-              SizedBox(height: 40),
-              Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.04), // เงาบางๆ
-                        blurRadius: 16,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 4),
+              const SizedBox(height: 32),
+              // 2. หุ้มปุ่ม Sign Out ให้อยู่ตรงกลาง และกำหนดความกว้างไม่ให้ยืดเต็มจอ
+              Center(
+                child: SizedBox(
+                  width: 200, // กำหนดความกว้างของปุ่ม
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      _buildMenuOption('Reserve History'),
-                      _buildDivider(),
-                      _buildMenuOption('Settings'),
-                      _buildDivider(),
-                      _buildMenuOption('About'),
-                      _buildDivider(),
-                      _buildMenuOption('Help  & Supports'),
-                    ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: const Text('Sign Out', style: TextStyle(fontSize: 16)),
                   ),
                 ),
-            ]
-          )
+              ),
+            ],
+          ),
         ),
-      )
+      ),
     );
   }
 

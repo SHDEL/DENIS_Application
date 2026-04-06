@@ -1,9 +1,38 @@
+import 'package:denis/dataconnect_generated/generated.dart';
 import 'package:denis/presentation/pages/cart_page.dart';
 import 'package:denis/presentation/pages/order_details_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class OrderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  late Future<QueryResult<GetMyOrdersData, void>> _ordersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      _ordersFuture = ExampleConnector.instance.getMyOrders(userId: currentUser.uid).execute();
+    }
+  }
+  
+  Future<void> _loadOrders() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      setState(() {
+        _ordersFuture = ExampleConnector.instance.getMyOrders(userId: currentUser.uid).execute();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,50 +81,71 @@ class OrderPage extends StatelessWidget {
             
             // ส่วนรายการออเดอร์ (List of Orders)
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  _buildOrderCard(
-                    context,
-                    orderId: 'Order 1',
-                    date: '24 March 2026 - 16:16',
-                    items: '3 Items',
-                    status: 'Pending',
-                    statusColor: Colors.amber, // สีเหลือง
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  _buildOrderCard(
-                    context,
-                    orderId: 'Order 1',
-                    date: '24 March 2026 - 16:16',
-                    items: '3 Items',
-                    status: 'Ready',
-                    statusColor: Colors.green.shade700, // สีเขียว
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  _buildOrderCard(
-                    context,
-                    orderId: 'Order 1',
-                    date: '24 March 2026 - 16:16',
-                    items: '3 Items',
-                    status: 'Success',
-                    statusColor: Colors.deepPurple, // สีม่วง
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  _buildOrderCard(
-                    context,
-                    orderId: 'Order 1',
-                    date: '24 March 2026 - 16:16',
-                    items: '3 Items',
-                    status: 'Cancelled',
-                    statusColor: Colors.red.shade700, // สีแดง
-                  ),
-                  const SizedBox(height: 16),
-                ],
+              child: FutureBuilder<QueryResult<GetMyOrdersData, void>>(
+                future: _ordersFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  }
+
+                  final orders = snapshot.data?.data.orders ?? [];
+
+                  if (orders.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No orders found',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
+                    );
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: _loadOrders,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      itemCount: orders.length,
+                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final order = orders[index];
+                        // แปลงวันที่ให้อ่านง่าย
+                        final localDate = order.orderDate.toDateTime().toUtc().toLocal();
+                        final dateStr = DateFormat('dd MMMM yyyy - HH:mm').format(localDate);
+                        
+                        // กำหนดสีตาม Status
+                        Color statusColor = Colors.grey;
+                        final status = order.status.toLowerCase();
+                        if (status == 'pending') {
+                          statusColor = Colors.amber;
+                        } else if (status == 'ready' || status == 'completed') {
+                          statusColor = Colors.green.shade700;
+                        } else if (status == 'success') {
+                          statusColor = Colors.deepPurple;
+                        } else if (status == 'cancelled' || status == 'canceled') {
+                          statusColor = Colors.red.shade700;
+                        }
+
+                        return _buildOrderCard(
+                          context,
+                          orderId: order.id.substring(0, 8).toUpperCase(), // แสดง ID แบบสั้นๆ หรือเอาเต็มๆ ก็ได้
+                          fullOrderId: order.id,
+                          date: dateStr,
+                          items: '${order.totalQty} Items',
+                          status: order.status,
+                          statusColor: statusColor,
+                        );
+                      },
+                    ),
+                  );
+                }
               ),
             ),
           ],
@@ -108,6 +158,7 @@ class OrderPage extends StatelessWidget {
   Widget _buildOrderCard(
     BuildContext context, {
     required String orderId,
+    required String fullOrderId,
     required String date,
     required String items,
     required String status,
@@ -135,9 +186,10 @@ class OrderPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => OrderDetailsPage(
-                  orderId: orderId,
+                  orderId: fullOrderId, // ส่ง ID ตัวเต็มไปดึงข้อมูล Data Connect ต่อ
                   status: status,
                   statusColor: statusColor,
+                  dateTime: date,
                 ),
               ),
             );
@@ -148,7 +200,7 @@ class OrderPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  orderId,
+                  'Order #${orderId.length > 4 ? orderId.substring(0, 4).toUpperCase() : orderId.toUpperCase()}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

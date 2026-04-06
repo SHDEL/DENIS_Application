@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:denis/dataconnect_generated/generated.dart';
 import 'package:denis/firebase_options.dart';
 import 'package:denis/presentation/pages/homepage.dart';
@@ -21,23 +22,30 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform
   );
 
-  // ---------- เพิ่มการตั้งค่า Emulator ตรงนี้ ----------
-  if (kDebugMode) {
-    print("Running in Debug Mode: Connecting to Local Emulators");
-    try {
-      // ตั้งค่า Host ให้ถูกต้อง (ปกติเป็น localhost, แต่สำหรับ Android Emulator บางทีต้องเป็น 10.0.2.2)
-      final emulatorHost = !kIsWeb && Platform.isAndroid ? '10.0.2.2' : 'localhost';
-      
-      // 2. เชื่อมต่อ Firebase Data Connect Emulator (พอร์ตค่าเริ่มต้นปกติคือ 9399)
-      ExampleConnector.instance.dataConnect.useDataConnectEmulator(emulatorHost, 9399);
+  FirebaseAppCheck.instance.activate(
+    providerAndroid: AndroidDebugProvider(), 
+    providerApple: AppleDebugProvider(), // ใช้ Debug Provider สำหรับ iOS (เฉพาะในโหมด Debug)
+  );
 
-      // (ถ้าคุณมีใช้ Firestore ร่วมด้วย ก็เพิ่มของ Firestore ลงไป)
-      // FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+  // ---------- เพิ่มการตั้งค่า Emulator ตรงนี้ ----------
+  // if (kDebugMode) {
+  //   print("Running in Debug Mode: Connecting to Local Emulators");
+  //   try {
+  //     // ตั้งค่า Host ให้ถูกต้อง (ปกติเป็น localhost, แต่สำหรับ Android Emulator บางทีต้องเป็น 10.0.2.2)
+  //     final emulatorHost = !kIsWeb && Platform.isAndroid ? '10.0.2.2' : 'localhost';
       
-    } catch (e) {
-      print('Failed to connect to emulators: $e');
-    }
-  }
+  //     // // 2. เชื่อมต่อ Firebase Data Connect Emulator (พอร์ตค่าเริ่มต้นปกติคือ 9399)
+  //     ExampleConnector.instance.dataConnect.useDataConnectEmulator(emulatorHost, 9399);
+
+  //     FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
+
+  //     // (ถ้าคุณมีใช้ Firestore ร่วมด้วย ก็เพิ่มของ Firestore ลงไป)
+  //     // FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+      
+  //   } catch (e) {
+  //     print('Failed to connect to emulators: $e');
+  //   }
+  // }
 
   runApp(const MyApp());
 }
@@ -55,6 +63,7 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SplashPage(); // โชว์หน้า Splash ไปก่อน
           }
@@ -64,11 +73,20 @@ class MyApp extends StatelessWidget {
             return FutureBuilder(
               future: ExampleConnector.instance.getRoleById(id: uid).execute(),
               builder: (context, roleSnapshot) {
+                
+                if (roleSnapshot.connectionState == ConnectionState.waiting) {
+                   // โชว์หน้าขาวๆ โหลดหรือ Splash เผื่อไว้ระหว่างกำลังสืบค้น Role
+                   print("กำลังรอโหลด Role อยู่...");
+                   return const Scaffold(
+                      body: SafeArea(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                   );
+                }
 
-                // if (roleSnapshot.connectionState == ConnectionState.waiting) {
-                //   return const SplashPage(); 
-                // }
-                String userRole = "USER";
+                String userRole = "USER"; 
                 if (roleSnapshot.hasData && roleSnapshot.data?.data?.user != null) {
                    userRole = roleSnapshot.data!.data!.user!.role; 
                 }
@@ -108,7 +126,7 @@ class MyApp extends StatelessWidget {
                   );
                 }
                 else {
-                  return MyHomePage(title: 'Home', role: userRole);
+                  return MyHomePage(title: 'Home', role: userRole, initialPage: 0,);
                 }
               },
             );

@@ -159,7 +159,7 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
                               setState(() {
                                 isSelectionMode = x;
                               });
-                            }, instruments: filteredInstruments,
+                            }, instruments: filteredInstruments,userRole: 'USER',
                           )
                           : InstrumentList(
                               isSelectionMode: isSelectionMode,
@@ -169,6 +169,7 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
                                   isSelectionMode = x;
                                 });
                               }, instruments: filteredInstruments,
+                              userRole: 'USER',
                            ),
                   ],
                 );

@@ -8,11 +8,13 @@ class AddtocartDialogWidget extends StatefulWidget {
   final GetAllInstrumentsAndCategoriesInstruments instrument;
   final String shelfText;
   final String cartItemId;
+  final int instrumentQty;
   const AddtocartDialogWidget({
     super.key, 
     required this.instrument, 
     required this.shelfText,
-    required this.cartItemId
+    required this.cartItemId, 
+    required this.instrumentQty
   });
 
   @override
@@ -20,7 +22,17 @@ class AddtocartDialogWidget extends StatefulWidget {
 }
 
 class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
-  int _quantity = 1;
+
+  late int _currentQty;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentQty = widget.instrumentQty;
+
+  }
+  
   
   @override
   Widget build(BuildContext context) {
@@ -93,21 +105,28 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      Text('Instock: ${widget.instrument.stocks_on_instrument.first.inStockQty}', 
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Nunito',
+                            )),
                       const SizedBox(height: 16),
                       // ปุ่มปรับจำนวนเพิ่มลด (+ / -)
                       Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if (_quantity > 1) {
-                                setState(() => _quantity--);
+                              if (_currentQty> 1) {
+                                setState(() => _currentQty--);
                               }
                             },
                             child: Icon(Icons.remove_circle_outline, color: Colors.red.shade600, size: 28),
                           ),
                           const SizedBox(width: 16),
                           Text(
-                            '$_quantity',
+                            '$_currentQty',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -116,7 +135,16 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
                           const SizedBox(width: 16),
                           GestureDetector(
                             onTap: () {
-                               setState(() => _quantity++);
+                              if (_currentQty >= widget.instrument.stocks_on_instrument.first.inStockQty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text('Cannot add more than available stock.'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                                return;
+                              }
+                              setState(() => _currentQty++);
                             },
                             child: const Icon(Icons.add_circle_outline, color: Colors.deepPurple, size: 28),
                           ),
@@ -133,7 +161,9 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () {
+                    onPressed: () async{
+                      await ExampleConnector.instance.updateCartItem(cartItemId: widget.cartItemId, quantity: _currentQty).execute();
+                      if (!context.mounted) return;
                       Navigator.pop(context); // ปิด Dialog
                     },
                     style: OutlinedButton.styleFrom(
@@ -159,8 +189,8 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
                   child: PrimaryAppButton(
                     onPressed: () async {
                       // TODO: เพิ่ม Logic บันทึกลงฐานข้อมูล Cart ตรงนี้
-                      print('Cart Item ID: ${widget.cartItemId}, Quantity: $_quantity');
-                      await ExampleConnector.instance.updateCartItem(cartItemId: widget.cartItemId, quantity: _quantity);
+                      print('Cart Item ID: ${widget.cartItemId}, Quantity: $_currentQty');
+                      await ExampleConnector.instance.updateCartItem(cartItemId: widget.cartItemId, quantity: _currentQty).execute();
                       Navigator.pop(context);
                       Navigator.push(
                         context,

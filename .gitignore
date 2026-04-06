@@ -56,3 +56,10 @@ app.*.map.json
 
 # agent cloud functions
 .agents
+
+# node modules
+/node_modules
+
+# env file
+.env
+/lib/env/env.g.dart

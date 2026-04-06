@@ -38,9 +38,14 @@ class _SignUpPageState extends State<SignUpPage> {
         _passwordCon.text
       );
 
-      // if (mounted) {
-      //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Home')));
-      // }
+      if (mounted) {
+        Navigator.pushReplacement(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: 'Home', role: 'USER',)
+          )
+        );
+      }
     } catch (e) {
       print(e);
     }
@@ -72,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 24),
                   PrimaryInput(text: 'Email', controller: _emailCon),
                   const SizedBox(height: 24),
-                  PrimaryInput(text: 'Password', controller: _passwordCon),
+                  PrimaryInput(text: 'Password', controller: _passwordCon, isPassword: true),
                   const SizedBox(height: 44),
                   PrimaryAppButton(onPressed: _handleSignUp, text: 'Create Account'),
                   const SizedBox(height: 24),

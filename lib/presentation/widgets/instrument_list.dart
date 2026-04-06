@@ -10,13 +10,17 @@ class InstrumentList extends StatefulWidget {
     required this.isSelectionMode,
     required this.onSelectionChange,
     required this.instruments, // เพิ่มพารามิเตอร์นี้
+    this.detectedCounts,
+    required this.userRole,
     super.key
   });
 
   final bool isSelectionMode;
   final List<bool> selectedList;
   final ValueChanged<bool>? onSelectionChange;
-  final List<GetAllInstrumentsAndCategoriesInstruments> instruments; // เพิ่มพารามิเตอร์นี้
+  final List<GetAllInstrumentsAndCategoriesInstruments> instruments;
+  final Map<String, int>? detectedCounts;
+  final String userRole;
   @override
   State<InstrumentList> createState() => _InstrumentListState();
 }
@@ -55,6 +59,7 @@ class _InstrumentListState extends State<InstrumentList> {
           final shelfText = instrument.stocks_on_instrument.isNotEmpty 
               ? instrument.stocks_on_instrument.first.shelf 
               : 'No Shelf';
+          final qty = widget.detectedCounts?[instrument.name] ?? 0; 
           return Material(
             color: Colors.transparent, // ปล่อยให้สีพื้นเป็นใสเพื่อให้เห็นสีขาวของ Container ภายนอก
             child: InkWell(
@@ -66,17 +71,39 @@ class _InstrumentListState extends State<InstrumentList> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => InstrumentsDetailsWidget(
-                        instrument: instrument, 
+                        instrument: instrument,
+                        userRole: widget.userRole,
                       ),
                     ),
                   );
                 }
               },
               child: ListTile(
-                // เอา onTap ออกจาก ListTile เพราะเราไปดักจับที่ InkWell แทนแล้ว
-                title: Text(
-                  widget.instruments[index].name, 
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        instrument.name, 
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        maxLines: 1, // บังคับให้มีแค่ 1 บรรทัด
+                        overflow: TextOverflow.ellipsis, // ถ้าเกินให้ขึ้น ...
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // ถ้าเจอมากกว่า 0 ให้โชว์ป้ายกำกับจำนวน
+                    if (qty > 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade100,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          'Detected: $qty',
+                          style: TextStyle(fontSize: 12, color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                  ],
                 ),
                 trailing: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

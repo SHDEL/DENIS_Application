@@ -1,8 +1,10 @@
 
+import 'package:denis/env/env.dart';
 import 'package:denis/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
-import 'package:mjpeg_stream/mjpeg_stream.dart';
+import 'package:flutter_mjpeg/flutter_mjpeg.dart';
+// import 'package:mjpeg_stream/mjpeg_stream.dart';
 
 class CameraWidget extends StatefulWidget {
   const CameraWidget({super.key});
@@ -54,16 +56,20 @@ class _CameraWidgetState extends State<CameraWidget> {
     //           // ),
     //         ),
     //       );
+    
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(28),
       ),
       child: Center(
-        child: MJPEGStreamScreen(
-          streamUrl: "http://10.107.7.58:5000/video_feed",
+        child: Mjpeg(
+          stream: "https://denis.zedoexter.xyz/video_feed?token=${Env.jwtToken}",
           fit: BoxFit.contain,
-          showLiveIcon: false,
+          isLive: true,
+          loading: (context) => const Center(
+              child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );

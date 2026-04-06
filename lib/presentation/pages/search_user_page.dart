@@ -152,6 +152,8 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                                     isSelectionMode: false,
                                     selectedList: List.filled(filteredInstruments.length, false),
                                     onSelectionChange: (val) {},
+                                    userRole: 'ADMIN',
+
                                   ),
                                 ) 
                               : _buildListView(filteredInstruments),
@@ -205,6 +207,7 @@ class _SearchUserWidgetState extends State<SearchUserWidget> {
                   isSelectionMode: false,
                   selectedList: List.filled(itemsInCategory.length, false),
                   onSelectionChange: (val) {},
+                  userRole: 'ADMIN',
                 ),
               ],
             ),
