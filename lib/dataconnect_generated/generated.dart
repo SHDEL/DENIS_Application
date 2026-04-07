@@ -3,6 +3,26 @@ import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
+part 'get_cart_by_user_id.dart';
+
+part 'create_cart.dart';
+
+part 'add_item_to_cart.dart';
+
+part 'update_cart_item.dart';
+
+part 'check_item_in_cart.dart';
+
+part 'get_my_full_cart.dart';
+
+part 'create_order.dart';
+
+part 'create_order_item.dart';
+
+part 'clear_cart_items.dart';
+
+part 'delete_cart_item.dart';
+
 part 'get_category_carousel.dart';
 
 part 'get_all_instruments_and_categories.dart';
@@ -25,26 +45,6 @@ part 'get_role_by_id.dart';
 
 part 'create_user.dart';
 
-part 'get_cart_by_user_id.dart';
-
-part 'create_cart.dart';
-
-part 'add_item_to_cart.dart';
-
-part 'update_cart_item.dart';
-
-part 'check_item_in_cart.dart';
-
-part 'get_my_full_cart.dart';
-
-part 'create_order.dart';
-
-part 'create_order_item.dart';
-
-part 'clear_cart_items.dart';
-
-part 'delete_cart_item.dart';
-
 
 
 
@@ -52,6 +52,56 @@ part 'delete_cart_item.dart';
 
 
 class ExampleConnector {
+  
+  
+  GetCartByUserIdVariablesBuilder getCartByUserId ({required String userId, }) {
+    return GetCartByUserIdVariablesBuilder(dataConnect, userId: userId,);
+  }
+  
+  
+  CreateCartVariablesBuilder createCart ({required String userId, required int quantity, }) {
+    return CreateCartVariablesBuilder(dataConnect, userId: userId,quantity: quantity,);
+  }
+  
+  
+  AddItemToCartVariablesBuilder addItemToCart ({required String cartId, required String instrumentId, required int quantity, }) {
+    return AddItemToCartVariablesBuilder(dataConnect, cartId: cartId,instrumentId: instrumentId,quantity: quantity,);
+  }
+  
+  
+  UpdateCartItemVariablesBuilder updateCartItem ({required String cartItemId, required int quantity, }) {
+    return UpdateCartItemVariablesBuilder(dataConnect, cartItemId: cartItemId,quantity: quantity,);
+  }
+  
+  
+  CheckItemInCartVariablesBuilder checkItemInCart ({required String cartId, required String instrumentId, }) {
+    return CheckItemInCartVariablesBuilder(dataConnect, cartId: cartId,instrumentId: instrumentId,);
+  }
+  
+  
+  GetMyFullCartVariablesBuilder getMyFullCart ({required String userId, }) {
+    return GetMyFullCartVariablesBuilder(dataConnect, userId: userId,);
+  }
+  
+  
+  CreateOrderVariablesBuilder createOrder ({required String userId, required int totalQty, required String status, }) {
+    return CreateOrderVariablesBuilder(dataConnect, userId: userId,totalQty: totalQty,status: status,);
+  }
+  
+  
+  CreateOrderItemVariablesBuilder createOrderItem ({required String orderId, required String instrumentId, required int qty, }) {
+    return CreateOrderItemVariablesBuilder(dataConnect, orderId: orderId,instrumentId: instrumentId,qty: qty,);
+  }
+  
+  
+  ClearCartItemsVariablesBuilder clearCartItems ({required String cartId, }) {
+    return ClearCartItemsVariablesBuilder(dataConnect, cartId: cartId,);
+  }
+  
+  
+  DeleteCartItemVariablesBuilder deleteCartItem ({required String cartItemId, }) {
+    return DeleteCartItemVariablesBuilder(dataConnect, cartItemId: cartItemId,);
+  }
   
   
   GetCategoryCarouselVariablesBuilder getCategoryCarousel () {
@@ -106,56 +156,6 @@ class ExampleConnector {
   
   CreateUserVariablesBuilder createUser ({required String id, required String username, required String email, required String role, }) {
     return CreateUserVariablesBuilder(dataConnect, id: id,username: username,email: email,role: role,);
-  }
-  
-  
-  GetCartByUserIdVariablesBuilder getCartByUserId ({required String userId, }) {
-    return GetCartByUserIdVariablesBuilder(dataConnect, userId: userId,);
-  }
-  
-  
-  CreateCartVariablesBuilder createCart ({required String userId, required int quantity, }) {
-    return CreateCartVariablesBuilder(dataConnect, userId: userId,quantity: quantity,);
-  }
-  
-  
-  AddItemToCartVariablesBuilder addItemToCart ({required String cartId, required String instrumentId, required int quantity, }) {
-    return AddItemToCartVariablesBuilder(dataConnect, cartId: cartId,instrumentId: instrumentId,quantity: quantity,);
-  }
-  
-  
-  UpdateCartItemVariablesBuilder updateCartItem ({required String cartItemId, required int quantity, }) {
-    return UpdateCartItemVariablesBuilder(dataConnect, cartItemId: cartItemId,quantity: quantity,);
-  }
-  
-  
-  CheckItemInCartVariablesBuilder checkItemInCart ({required String cartId, required String instrumentId, }) {
-    return CheckItemInCartVariablesBuilder(dataConnect, cartId: cartId,instrumentId: instrumentId,);
-  }
-  
-  
-  GetMyFullCartVariablesBuilder getMyFullCart ({required String userId, }) {
-    return GetMyFullCartVariablesBuilder(dataConnect, userId: userId,);
-  }
-  
-  
-  CreateOrderVariablesBuilder createOrder ({required String userId, required int totalQty, required String status, }) {
-    return CreateOrderVariablesBuilder(dataConnect, userId: userId,totalQty: totalQty,status: status,);
-  }
-  
-  
-  CreateOrderItemVariablesBuilder createOrderItem ({required String orderId, required String instrumentId, required int qty, }) {
-    return CreateOrderItemVariablesBuilder(dataConnect, orderId: orderId,instrumentId: instrumentId,qty: qty,);
-  }
-  
-  
-  ClearCartItemsVariablesBuilder clearCartItems ({required String cartId, }) {
-    return ClearCartItemsVariablesBuilder(dataConnect, cartId: cartId,);
-  }
-  
-  
-  DeleteCartItemVariablesBuilder deleteCartItem ({required String cartItemId, }) {
-    return DeleteCartItemVariablesBuilder(dataConnect, cartItemId: cartItemId,);
   }
   
 

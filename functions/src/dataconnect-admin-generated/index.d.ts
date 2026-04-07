@@ -338,6 +338,56 @@ export interface User_Key {
   __typename?: 'User_Key';
 }
 
+/** Generated Node Admin SDK operation action function for the 'GetCartByUserId' Query. Allow users to execute without passing in DataConnect. */
+export function getCartByUserId(dc: DataConnect, vars: GetCartByUserIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCartByUserIdData>>;
+/** Generated Node Admin SDK operation action function for the 'GetCartByUserId' Query. Allow users to pass in custom DataConnect instances. */
+export function getCartByUserId(vars: GetCartByUserIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCartByUserIdData>>;
+
+/** Generated Node Admin SDK operation action function for the 'CreateCart' Mutation. Allow users to execute without passing in DataConnect. */
+export function createCart(dc: DataConnect, vars: CreateCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateCartData>>;
+/** Generated Node Admin SDK operation action function for the 'CreateCart' Mutation. Allow users to pass in custom DataConnect instances. */
+export function createCart(vars: CreateCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateCartData>>;
+
+/** Generated Node Admin SDK operation action function for the 'AddItemToCart' Mutation. Allow users to execute without passing in DataConnect. */
+export function addItemToCart(dc: DataConnect, vars: AddItemToCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<AddItemToCartData>>;
+/** Generated Node Admin SDK operation action function for the 'AddItemToCart' Mutation. Allow users to pass in custom DataConnect instances. */
+export function addItemToCart(vars: AddItemToCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<AddItemToCartData>>;
+
+/** Generated Node Admin SDK operation action function for the 'UpdateCartItem' Mutation. Allow users to execute without passing in DataConnect. */
+export function updateCartItem(dc: DataConnect, vars: UpdateCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateCartItemData>>;
+/** Generated Node Admin SDK operation action function for the 'UpdateCartItem' Mutation. Allow users to pass in custom DataConnect instances. */
+export function updateCartItem(vars: UpdateCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateCartItemData>>;
+
+/** Generated Node Admin SDK operation action function for the 'CheckItemInCart' Query. Allow users to execute without passing in DataConnect. */
+export function checkItemInCart(dc: DataConnect, vars: CheckItemInCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CheckItemInCartData>>;
+/** Generated Node Admin SDK operation action function for the 'CheckItemInCart' Query. Allow users to pass in custom DataConnect instances. */
+export function checkItemInCart(vars: CheckItemInCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CheckItemInCartData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetMyFullCart' Query. Allow users to execute without passing in DataConnect. */
+export function getMyFullCart(dc: DataConnect, vars: GetMyFullCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyFullCartData>>;
+/** Generated Node Admin SDK operation action function for the 'GetMyFullCart' Query. Allow users to pass in custom DataConnect instances. */
+export function getMyFullCart(vars: GetMyFullCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyFullCartData>>;
+
+/** Generated Node Admin SDK operation action function for the 'CreateOrder' Mutation. Allow users to execute without passing in DataConnect. */
+export function createOrder(dc: DataConnect, vars: CreateOrderVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderData>>;
+/** Generated Node Admin SDK operation action function for the 'CreateOrder' Mutation. Allow users to pass in custom DataConnect instances. */
+export function createOrder(vars: CreateOrderVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderData>>;
+
+/** Generated Node Admin SDK operation action function for the 'CreateOrderItem' Mutation. Allow users to execute without passing in DataConnect. */
+export function createOrderItem(dc: DataConnect, vars: CreateOrderItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderItemData>>;
+/** Generated Node Admin SDK operation action function for the 'CreateOrderItem' Mutation. Allow users to pass in custom DataConnect instances. */
+export function createOrderItem(vars: CreateOrderItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderItemData>>;
+
+/** Generated Node Admin SDK operation action function for the 'ClearCartItems' Mutation. Allow users to execute without passing in DataConnect. */
+export function clearCartItems(dc: DataConnect, vars: ClearCartItemsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<ClearCartItemsData>>;
+/** Generated Node Admin SDK operation action function for the 'ClearCartItems' Mutation. Allow users to pass in custom DataConnect instances. */
+export function clearCartItems(vars: ClearCartItemsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<ClearCartItemsData>>;
+
+/** Generated Node Admin SDK operation action function for the 'DeleteCartItem' Mutation. Allow users to execute without passing in DataConnect. */
+export function deleteCartItem(dc: DataConnect, vars: DeleteCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<DeleteCartItemData>>;
+/** Generated Node Admin SDK operation action function for the 'DeleteCartItem' Mutation. Allow users to pass in custom DataConnect instances. */
+export function deleteCartItem(vars: DeleteCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<DeleteCartItemData>>;
+
 /** Generated Node Admin SDK operation action function for the 'GetCategoryCarousel' Query. Allow users to execute without passing in DataConnect. */
 export function getCategoryCarousel(dc: DataConnect, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCategoryCarouselData>>;
 /** Generated Node Admin SDK operation action function for the 'GetCategoryCarousel' Query. Allow users to pass in custom DataConnect instances. */
@@ -392,54 +442,4 @@ export function getRoleById(vars: GetRoleByIdVariables, options?: OperationOptio
 export function createUser(dc: DataConnect, vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
 /** Generated Node Admin SDK operation action function for the 'CreateUser' Mutation. Allow users to pass in custom DataConnect instances. */
 export function createUser(vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetCartByUserId' Query. Allow users to execute without passing in DataConnect. */
-export function getCartByUserId(dc: DataConnect, vars: GetCartByUserIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCartByUserIdData>>;
-/** Generated Node Admin SDK operation action function for the 'GetCartByUserId' Query. Allow users to pass in custom DataConnect instances. */
-export function getCartByUserId(vars: GetCartByUserIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCartByUserIdData>>;
-
-/** Generated Node Admin SDK operation action function for the 'CreateCart' Mutation. Allow users to execute without passing in DataConnect. */
-export function createCart(dc: DataConnect, vars: CreateCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateCartData>>;
-/** Generated Node Admin SDK operation action function for the 'CreateCart' Mutation. Allow users to pass in custom DataConnect instances. */
-export function createCart(vars: CreateCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateCartData>>;
-
-/** Generated Node Admin SDK operation action function for the 'AddItemToCart' Mutation. Allow users to execute without passing in DataConnect. */
-export function addItemToCart(dc: DataConnect, vars: AddItemToCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<AddItemToCartData>>;
-/** Generated Node Admin SDK operation action function for the 'AddItemToCart' Mutation. Allow users to pass in custom DataConnect instances. */
-export function addItemToCart(vars: AddItemToCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<AddItemToCartData>>;
-
-/** Generated Node Admin SDK operation action function for the 'UpdateCartItem' Mutation. Allow users to execute without passing in DataConnect. */
-export function updateCartItem(dc: DataConnect, vars: UpdateCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateCartItemData>>;
-/** Generated Node Admin SDK operation action function for the 'UpdateCartItem' Mutation. Allow users to pass in custom DataConnect instances. */
-export function updateCartItem(vars: UpdateCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateCartItemData>>;
-
-/** Generated Node Admin SDK operation action function for the 'CheckItemInCart' Query. Allow users to execute without passing in DataConnect. */
-export function checkItemInCart(dc: DataConnect, vars: CheckItemInCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CheckItemInCartData>>;
-/** Generated Node Admin SDK operation action function for the 'CheckItemInCart' Query. Allow users to pass in custom DataConnect instances. */
-export function checkItemInCart(vars: CheckItemInCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CheckItemInCartData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetMyFullCart' Query. Allow users to execute without passing in DataConnect. */
-export function getMyFullCart(dc: DataConnect, vars: GetMyFullCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyFullCartData>>;
-/** Generated Node Admin SDK operation action function for the 'GetMyFullCart' Query. Allow users to pass in custom DataConnect instances. */
-export function getMyFullCart(vars: GetMyFullCartVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyFullCartData>>;
-
-/** Generated Node Admin SDK operation action function for the 'CreateOrder' Mutation. Allow users to execute without passing in DataConnect. */
-export function createOrder(dc: DataConnect, vars: CreateOrderVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderData>>;
-/** Generated Node Admin SDK operation action function for the 'CreateOrder' Mutation. Allow users to pass in custom DataConnect instances. */
-export function createOrder(vars: CreateOrderVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderData>>;
-
-/** Generated Node Admin SDK operation action function for the 'CreateOrderItem' Mutation. Allow users to execute without passing in DataConnect. */
-export function createOrderItem(dc: DataConnect, vars: CreateOrderItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderItemData>>;
-/** Generated Node Admin SDK operation action function for the 'CreateOrderItem' Mutation. Allow users to pass in custom DataConnect instances. */
-export function createOrderItem(vars: CreateOrderItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateOrderItemData>>;
-
-/** Generated Node Admin SDK operation action function for the 'ClearCartItems' Mutation. Allow users to execute without passing in DataConnect. */
-export function clearCartItems(dc: DataConnect, vars: ClearCartItemsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<ClearCartItemsData>>;
-/** Generated Node Admin SDK operation action function for the 'ClearCartItems' Mutation. Allow users to pass in custom DataConnect instances. */
-export function clearCartItems(vars: ClearCartItemsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<ClearCartItemsData>>;
-
-/** Generated Node Admin SDK operation action function for the 'DeleteCartItem' Mutation. Allow users to execute without passing in DataConnect. */
-export function deleteCartItem(dc: DataConnect, vars: DeleteCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<DeleteCartItemData>>;
-/** Generated Node Admin SDK operation action function for the 'DeleteCartItem' Mutation. Allow users to pass in custom DataConnect instances. */
-export function deleteCartItem(vars: DeleteCartItemVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<DeleteCartItemData>>;
 
