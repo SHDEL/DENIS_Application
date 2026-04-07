@@ -166,6 +166,28 @@ export interface GetCategoryCarouselData {
   } & InstrumentCategory_Key)[];
 }
 
+export interface GetInstrumentsByCategoryIdData {
+  instruments: ({
+    id: UUIDString;
+    name: string;
+    description: string;
+    imageUrl: string;
+    category: {
+      name: string;
+    };
+      stocks_on_instrument: ({
+        id: UUIDString;
+        inStockQty: number;
+        inUseQty: number;
+        shelf: string;
+      } & Stock_Key)[];
+  } & Instrument_Key)[];
+}
+
+export interface GetInstrumentsByCategoryIdVariables {
+  categoryId: UUIDString;
+}
+
 export interface GetMyFullCartData {
   carts: ({
     id: UUIDString;
@@ -325,6 +347,11 @@ export function getCategoryCarousel(options?: OperationOptions): Promise<Execute
 export function getAllInstrumentsAndCategories(dc: DataConnect, options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllInstrumentsAndCategoriesData>>;
 /** Generated Node Admin SDK operation action function for the 'GetAllInstrumentsAndCategories' Query. Allow users to pass in custom DataConnect instances. */
 export function getAllInstrumentsAndCategories(options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllInstrumentsAndCategoriesData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetInstrumentsByCategoryId' Query. Allow users to execute without passing in DataConnect. */
+export function getInstrumentsByCategoryId(dc: DataConnect, vars: GetInstrumentsByCategoryIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetInstrumentsByCategoryIdData>>;
+/** Generated Node Admin SDK operation action function for the 'GetInstrumentsByCategoryId' Query. Allow users to pass in custom DataConnect instances. */
+export function getInstrumentsByCategoryId(vars: GetInstrumentsByCategoryIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetInstrumentsByCategoryIdData>>;
 
 /** Generated Node Admin SDK operation action function for the 'GetMyOrders' Query. Allow users to execute without passing in DataConnect. */
 export function getMyOrders(dc: DataConnect, vars: GetMyOrdersVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyOrdersData>>;

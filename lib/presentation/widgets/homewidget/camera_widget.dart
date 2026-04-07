@@ -16,59 +16,24 @@ class CameraWidget extends StatefulWidget {
 class _CameraWidgetState extends State<CameraWidget> {
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //         decoration: BoxDecoration(
-    //           gradient: AppColors.gradprimary,
-    //           borderRadius: BorderRadius.circular(28),
-    //           boxShadow: [
-    //             BoxShadow(
-    //               color: Color.fromRGBO(0, 0, 0, 0.20),
-    //               blurRadius: 24,
-    //               spreadRadius: 0,
-    //               offset: Offset(0, 1),
-    //             )
-    //           ]
-    //         ),
-    //         child: Center(
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(20.0),
-    //             child: MJPEGStreamScreen(streamUrl: "http://10.107.7.58:5000/video_feed", fit: BoxFit.cover, showLiveIcon: false),
-    //           ),
-    //           // child: Column(
-    //           //   mainAxisSize: MainAxisSize.min,
-    //           //   children: [
-    //           //     Icon(
-    //           //       Icons.videocam,
-    //           //       color: Colors.white54,
-    //           //       size: 56,
-    //           //     ),
-    //           //     SizedBox(height: 10),
-    //           //     Text('Camera',
-    //           //       style: TextStyle(
-    //           //         color: Colors.white70,
-    //           //         fontSize: 20,
-    //           //         fontFamily: 'Nunito',
-    //           //         fontWeight: FontWeight.w600,
-    //           //         letterSpacing: 1.2,
-    //           //       ),
-    //           //     ),
-    //           //   ],
-    //           // ),
-    //         ),
-    //       );
     
     return Container(
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(28),
       ),
-      child: Center(
-        child: Mjpeg(
-          stream: "https://denis.zedoexter.xyz/video_feed?token=${Env.jwtToken}",
-          fit: BoxFit.contain,
-          isLive: true,
-          loading: (context) => const Center(
-              child: CircularProgressIndicator(),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        // ใช้ SizedBox.expand เพื่อบังคับให้ Mjpeg กางเต็มพื้นที่ Container
+        child: SizedBox.expand(
+          child: Mjpeg(
+            stream: "https://denis.zedoexter.xyz/video_feed?token=${Env.jwtToken}",
+            // BoxFit.cover จะขยายภาพจนเต็มกรอบ ส่วนที่เกิน (บรรทัดบน/ล่างของ 640x640) จะถูกตัดออก
+            fit: BoxFit.contain,
+            isLive: true,
+            loading: (context) => const Center(
+                child: CircularProgressIndicator(),
+            ),
           ),
         ),
       ),

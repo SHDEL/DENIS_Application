@@ -11,7 +11,7 @@ const {setGlobalOptions} = require("firebase-functions");
 const {onRequest} = require("firebase-functions/https");
 const logger = require("firebase-functions/logger");
 const { onMutationExecuted } = require("firebase-functions/v2/dataconnect");
-const { createCart, addItemToCart, getCartByUserId, checkItemInCart, updateCartItem, deleteCartItem, createOrder, createOrderItem, updateStock, clearCartItems, getOrderDetails, updateOrderStatus } = require("./src/dataconnect-admin-generated/index.cjs");
+const { createCart, addItemToCart, getCartByUserId, checkItemInCart, updateCartItem, deleteCartItem, createOrder, createOrderItem, updateStock, clearCartItems, getOrderDetails, updateOrderStatus, getInstrumentsByCategoryId } = require("./src/dataconnect-admin-generated/index.cjs");
 
 // For cost control, you can set the maximum number of containers that can be
 // running at the same time. This helps mitigate the impact of unexpected
@@ -286,6 +286,66 @@ exports.updateOrderStatusApi = onRequest(async (req, res) => {
 
     } catch (error) {
       logger.error("Error updating order status:", error);
+      res.status(500).json({ success: false, message: "Server Error", error: error.message });
+    }
+  });
+});
+
+exports.addSetToCartApi = onRequest(async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== "POST") {
+      res.status(405).json({ success: false, message: "Use POST method only" });
+      return;
+    }
+
+    try {
+      const { userId, categoryId } = req.body;
+
+      if (!userId || !categoryId) {
+        res.status(400).json({ success: false, message: "Missing userId or categoryId" });
+        return;
+      }
+
+      // 1. ดึง Cart ของ User (หรือสร้างใหม่ถ้าไม่มี)
+      let activeCartId = null;
+      const cartCheck = await getCartByUserId({ userId: userId });
+      
+      if (cartCheck.data && cartCheck.data.carts && cartCheck.data.carts.length > 0) {
+        activeCartId = cartCheck.data.carts[0].id;
+      } else {
+        const cartResponse = await createCart({ userId: userId, quantity: 1 });
+        activeCartId = cartResponse.data.cart_insert.id;
+      }
+
+       // 2. เรียกใช้ Query ฝั่ง DataConnect
+      const instrumentsResponse = await getInstrumentsByCategoryId({ categoryId: categoryId });
+      const instruments = instrumentsResponse.data.instruments || [];
+
+      if (!instruments || instruments.length === 0) {
+        res.status(200).json({ success: true, message: "No instruments found in this category", addedCount: 0 });
+        return;
+      }
+
+      // 3. วนลูปเพิ่มสินค้าเข้าตะกร้า
+      let addedCount = 0;
+      for (const inst of instruments) {
+        // เช็คก่อนว่ามีในตะกร้าแล้วหรือยัง
+        const itemCheck = await checkItemInCart({ cartId: activeCartId, instrumentId: inst.id });
+        if (!itemCheck.data || !itemCheck.data.cartItems || itemCheck.data.cartItems.length === 0) {
+           await addItemToCart({
+             cartId: activeCartId,
+             instrumentId: inst.id,
+             quantity: 1
+           });
+           addedCount++;
+        }
+      }
+
+      logger.info(`Added ${addedCount} items from category ${categoryId} to user ${userId}'s cart.`);
+      res.status(200).json({ success: true, message: "Add set to cart successful", addedCount: addedCount });
+
+    } catch (error) {
+      logger.error("Error adding set to cart:", error);
       res.status(500).json({ success: false, message: "Server Error", error: error.message });
     }
   });

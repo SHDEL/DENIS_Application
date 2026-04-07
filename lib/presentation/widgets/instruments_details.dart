@@ -337,7 +337,7 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                           width: double.infinity,
                           child: PrimaryAppButton(
                             text: 'Add to Cart',
-                            onPressed: () async {
+                            onPressed: currentQty <= 0 ? null : () async {
                               // ป้องกันการกดซ้ำขณะโหลด
                               if (isLoadingCart) return;
 

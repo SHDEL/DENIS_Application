@@ -18,6 +18,12 @@ export function getAllInstrumentsAndCategories(dcOrOptions, options) {
   return dcInstance.executeQuery('GetAllInstrumentsAndCategories', undefined, inputOpts);
 }
 
+export function getInstrumentsByCategoryId(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetInstrumentsByCategoryId', inputVars, inputOpts);
+}
+
 export function getMyOrders(dcOrVarsOrOptions, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
   dcInstance.useGen(true);

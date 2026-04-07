@@ -7,6 +7,8 @@ part 'get_category_carousel.dart';
 
 part 'get_all_instruments_and_categories.dart';
 
+part 'get_instruments_by_category_id.dart';
+
 part 'get_my_orders.dart';
 
 part 'get_order_details.dart';
@@ -59,6 +61,11 @@ class ExampleConnector {
   
   GetAllInstrumentsAndCategoriesVariablesBuilder getAllInstrumentsAndCategories () {
     return GetAllInstrumentsAndCategoriesVariablesBuilder(dataConnect, );
+  }
+  
+  
+  GetInstrumentsByCategoryIdVariablesBuilder getInstrumentsByCategoryId ({required String categoryId, }) {
+    return GetInstrumentsByCategoryIdVariablesBuilder(dataConnect, categoryId: categoryId,);
   }
   
   

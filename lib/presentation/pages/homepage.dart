@@ -157,11 +157,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildWebHomePage() {
     if (widget.role == 'ADMIN') {
-      return HomeAdminWidget();
+      return HomeAdminWidget(key: currentPage == 0 ? UniqueKey() : null,);
       
     }
     else {
-      return HomeUserWidget();
+      return HomeUserWidget(key: currentPage == 0 ? UniqueKey() : null,);
     }
   }
 

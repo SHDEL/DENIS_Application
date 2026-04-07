@@ -241,7 +241,7 @@ class _RequestManagementState extends State<RequestManagement> {
                                   },
                                   child: _buildTableRow(
                                     id: order.id,
-                                    shortId: order.id.substring(0, 7),
+                                    shortId: order.id.substring(0, 4),
                                     username: order.user.username,
                                     status: order.status,
                                     timestamp: formattedTime,
@@ -272,15 +272,6 @@ class _RequestManagementState extends State<RequestManagement> {
           'Request Management',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        Row(
-          children: [
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.download, size: 18),
-              label: const Text('Export'),
-            ),
-          ],
-        )
       ],
     );
   }
@@ -324,29 +315,6 @@ class _RequestManagementState extends State<RequestManagement> {
             );
           }),
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: 200,
-              height: 36,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search order ID',
-                  prefixIcon: const Icon(Icons.search, size: 18),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: Colors.grey.shade300)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: Colors.grey.shade300)),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.filter_list, size: 16),
-              label: const Text('Filter'),
-            ),
-          ],
-        )
       ],
     );
   }
@@ -395,22 +363,10 @@ class _RequestManagementState extends State<RequestManagement> {
             flex: 2,
             child: Row(
               children: [
-                Checkbox(
-                  value: isChecked, 
-                  onChanged: (v) {
-                    setState(() {
-                      if (v == true) {
-                        _selectedOrders.add(id);
-                      } else {
-                        _selectedOrders.remove(id);
-                      }
-                    });
-                  }
-                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    shortId,
+                    '#$shortId'.toUpperCase(),
                     style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                     overflow: TextOverflow.ellipsis,
                   ),

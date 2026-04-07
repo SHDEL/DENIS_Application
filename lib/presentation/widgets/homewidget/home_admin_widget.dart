@@ -112,8 +112,9 @@ class _HomeAdminWidgetState extends State<HomeAdminWidget> {
               ],
             ),
             const SizedBox(height: 12),
+            // AspectRatio(aspectRatio: 1, child: Center(child: CameraWidget()),),
             const SizedBox(
-              height: 300,
+              height: 500,
               child: Center(
                   child: CameraWidget(),
               ),

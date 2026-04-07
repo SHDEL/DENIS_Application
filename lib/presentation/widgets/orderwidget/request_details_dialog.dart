@@ -55,7 +55,7 @@ class _RequestDetailsDialogState extends State<RequestDetailsDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Order #${orderId.length > 4 ? orderId.substring(0, 4).toUpperCase() : orderId.toUpperCase()}',
+                  'Order #${orderId.substring(0, 4).toUpperCase()}',
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -73,7 +73,20 @@ class _RequestDetailsDialogState extends State<RequestDetailsDialog> {
             // Date
             Row(
               children: [
-                const Text(
+                Text(
+                  'OrderID: ',
+                  style: const TextStyle(fontSize: 18, fontFamily: 'Nunito'),
+                ),
+                Text(
+                  widget.order.id,
+                  style: const TextStyle(fontSize: 18, color: Colors.black87, fontFamily: 'Nunito'),
+                ),
+                
+              ],
+            ),
+            Row(
+              children: [
+                Text(
                   'Order Date: ',
                   style: TextStyle(fontSize: 18, fontFamily: 'Nunito'),
                 ),
@@ -193,7 +206,7 @@ class _RequestDetailsDialogState extends State<RequestDetailsDialog> {
             // Actions
             Row(
               children: [
-                if (widget.order.status.toLowerCase() != 'returned') ...[
+                if (widget.order.status.toLowerCase() != 'returned' && widget.order.status.toLowerCase() != 'cancelled') ...[
                   Expanded(
                     child: OutlineAppButton(
                       text: 'Reject this request',
@@ -204,24 +217,24 @@ class _RequestDetailsDialogState extends State<RequestDetailsDialog> {
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                  child: PrimaryAppButton(
-                    text: widget.order.status.toLowerCase() == 'pending' ? 'Proceed to Ready' 
-                          : widget.order.status.toLowerCase() == 'ready' ? 'Proceed to Checkout' 
-                          : widget.order.status.toLowerCase() == 'success' ? 'Proceed to Returned'
-                          : 'Reject this request',
-                    onPressed: () {
-                      if (widget.order.status.toLowerCase() == 'pending'){
-                        widget.onUpdateStatus(context, widget.order.id, 'Ready');
-                      }
-                      else if (widget.order.status.toLowerCase() == 'ready'){
-                        widget.onUpdateStatus(context, widget.order.id, 'Success');
-                      }
-                      else if (widget.order.status.toLowerCase() == 'success') {
-                        widget.onUpdateStatus(context, widget.order.id, 'Returned');
-                      }
-                    },
+                    child: PrimaryAppButton(
+                      text: widget.order.status.toLowerCase() == 'pending' ? 'Proceed to Ready' 
+                            : widget.order.status.toLowerCase() == 'ready' ? 'Proceed to Checkout' 
+                            : widget.order.status.toLowerCase() == 'success' ? 'Proceed to Returned'
+                            : 'Reject this request',
+                      onPressed: () {
+                        if (widget.order.status.toLowerCase() == 'pending'){
+                          widget.onUpdateStatus(context, widget.order.id, 'Ready');
+                        }
+                        else if (widget.order.status.toLowerCase() == 'ready'){
+                          widget.onUpdateStatus(context, widget.order.id, 'Success');
+                        }
+                        else if (widget.order.status.toLowerCase() == 'success') {
+                          widget.onUpdateStatus(context, widget.order.id, 'Returned');
+                        }
+                      },
+                    ),
                   ),
-                ),
                 ],
               ],
             ),

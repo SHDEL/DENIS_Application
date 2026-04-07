@@ -165,30 +165,6 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
           'Stock Management',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        Row(
-          children: [
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.download, size: 18),
-              label: const Text('Import'),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.upload, size: 18),
-              label: const Text('Export'),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.add, size: 18, color: Colors.white,),
-              label: const Text('Add product', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
-            ),
-          ],
-        )
       ],
     );
   }
@@ -233,29 +209,6 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
             );
           }),
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: 200,
-              height: 36,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search, size: 18),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: Colors.grey.shade300)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: Colors.grey.shade300)),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.sort, size: 16),
-              label: const Text('Sort'),
-            ),
-          ],
-        )
       ],
     );
   }
@@ -313,18 +266,6 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
               flex: 3,
               child: Row(
                 children: [
-                  Checkbox(
-                    value: isChecked, 
-                    onChanged: (v) {
-                      setState(() {
-                        if (v == true) {
-                          _selectedItems.add(id);
-                        } else {
-                          _selectedItems.remove(id);
-                        }
-                      });
-                    }
-                  ),
                   Container(
                     width: 36,
                     height: 36,
