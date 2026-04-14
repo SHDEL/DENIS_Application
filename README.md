@@ -2,7 +2,7 @@
 
 Dental Instrument System Application.
 
-(https://denis-2771b.web.app/)
+https://denis-2771b.web.app/
 
 # Update 14/4/2026
 
