@@ -2,6 +2,12 @@
 
 Dental Instrument System Application.
 
+(https://denis-2771b.web.app/)
+
+# Update 14/4/2026
+
+- I have already disable google cloud service for this project
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
