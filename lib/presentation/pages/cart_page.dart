@@ -210,7 +210,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       const Text(
-                        'Cart',
+                        'My List',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
@@ -241,7 +241,7 @@ class _CartPageState extends State<CartPage> {
                     child: _localCartItems.isEmpty
                         ? const Center(
                             child: Text(
-                              'Your cart is empty',
+                              'Your list is empty',
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.grey,

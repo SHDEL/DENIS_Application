@@ -48,7 +48,7 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Added to your cart!',
+              'Added to your list!',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -199,7 +199,7 @@ class _AddtocartDialogWidgetState extends State<AddtocartDialogWidget> {
                         ),
                       );
                     }, 
-                    text: "View my cart",
+                    text: "View my list",
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     fontSize: 14,
                   )

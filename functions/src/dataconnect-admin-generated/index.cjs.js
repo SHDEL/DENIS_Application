@@ -7,6 +7,62 @@ const connectorConfig = {
 };
 exports.connectorConfig = connectorConfig;
 
+function getMyOrders(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetMyOrders', inputVars, inputOpts);
+}
+exports.getMyOrders = getMyOrders;
+
+function getOrderDetails(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetOrderDetails', inputVars, inputOpts);
+}
+exports.getOrderDetails = getOrderDetails;
+
+function getAllOrders(dcOrOptions, options) {
+  const { dc: dcInstance, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrOptions, options, undefined);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetAllOrders', undefined, inputOpts);
+}
+exports.getAllOrders = getAllOrders;
+
+function updateOrderStatus(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeMutation('UpdateOrderStatus', inputVars, inputOpts);
+}
+exports.updateOrderStatus = updateOrderStatus;
+
+function updateStock(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeMutation('updateStock', inputVars, inputOpts);
+}
+exports.updateStock = updateStock;
+
+function getUserById(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetUserById', inputVars, inputOpts);
+}
+exports.getUserById = getUserById;
+
+function getRoleById(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeQuery('GetRoleById', inputVars, inputOpts);
+}
+exports.getRoleById = getRoleById;
+
+function createUser(dcOrVarsOrOptions, varsOrOptions, options) {
+  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
+  dcInstance.useGen(true);
+  return dcInstance.executeMutation('CreateUser', inputVars, inputOpts);
+}
+exports.createUser = createUser;
+
 function getCartByUserId(dcOrVarsOrOptions, varsOrOptions, options) {
   const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
   dcInstance.useGen(true);
@@ -97,60 +153,4 @@ function getInstrumentsByCategoryId(dcOrVarsOrOptions, varsOrOptions, options) {
   return dcInstance.executeQuery('GetInstrumentsByCategoryId', inputVars, inputOpts);
 }
 exports.getInstrumentsByCategoryId = getInstrumentsByCategoryId;
-
-function getMyOrders(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeQuery('GetMyOrders', inputVars, inputOpts);
-}
-exports.getMyOrders = getMyOrders;
-
-function getOrderDetails(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeQuery('GetOrderDetails', inputVars, inputOpts);
-}
-exports.getOrderDetails = getOrderDetails;
-
-function getAllOrders(dcOrOptions, options) {
-  const { dc: dcInstance, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrOptions, options, undefined);
-  dcInstance.useGen(true);
-  return dcInstance.executeQuery('GetAllOrders', undefined, inputOpts);
-}
-exports.getAllOrders = getAllOrders;
-
-function updateOrderStatus(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeMutation('UpdateOrderStatus', inputVars, inputOpts);
-}
-exports.updateOrderStatus = updateOrderStatus;
-
-function updateStock(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeMutation('updateStock', inputVars, inputOpts);
-}
-exports.updateStock = updateStock;
-
-function getUserById(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeQuery('GetUserById', inputVars, inputOpts);
-}
-exports.getUserById = getUserById;
-
-function getRoleById(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeQuery('GetRoleById', inputVars, inputOpts);
-}
-exports.getRoleById = getRoleById;
-
-function createUser(dcOrVarsOrOptions, varsOrOptions, options) {
-  const { dc: dcInstance, vars: inputVars, options: inputOpts} = validateAdminArgs(connectorConfig, dcOrVarsOrOptions, varsOrOptions, options, true, true);
-  dcInstance.useGen(true);
-  return dcInstance.executeMutation('CreateUser', inputVars, inputOpts);
-}
-exports.createUser = createUser;
 

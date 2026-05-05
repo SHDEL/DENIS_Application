@@ -336,7 +336,7 @@ class _InstrumentsDetailsWidgetState extends State<InstrumentsDetailsWidget> {
                         SizedBox(
                           width: double.infinity,
                           child: PrimaryAppButton(
-                            text: 'Add to Cart',
+                            text: 'Add to List',
                             onPressed: currentQty <= 0 ? null : () async {
                               // ป้องกันการกดซ้ำขณะโหลด
                               if (isLoadingCart) return;
