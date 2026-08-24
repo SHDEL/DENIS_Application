@@ -3,22 +3,6 @@ import 'package:firebase_data_connect/firebase_data_connect.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
-part 'get_my_orders.dart';
-
-part 'get_order_details.dart';
-
-part 'get_all_orders.dart';
-
-part 'update_order_status.dart';
-
-part 'update_stock.dart';
-
-part 'get_user_by_id.dart';
-
-part 'get_role_by_id.dart';
-
-part 'create_user.dart';
-
 part 'get_cart_by_user_id.dart';
 
 part 'create_cart.dart';
@@ -45,6 +29,22 @@ part 'get_all_instruments_and_categories.dart';
 
 part 'get_instruments_by_category_id.dart';
 
+part 'get_my_orders.dart';
+
+part 'get_order_details.dart';
+
+part 'get_all_orders.dart';
+
+part 'update_order_status.dart';
+
+part 'update_stock.dart';
+
+part 'get_user_by_id.dart';
+
+part 'get_role_by_id.dart';
+
+part 'create_user.dart';
+
 
 
 
@@ -52,46 +52,6 @@ part 'get_instruments_by_category_id.dart';
 
 
 class ExampleConnector {
-  
-  
-  GetMyOrdersVariablesBuilder getMyOrders ({required String userId, }) {
-    return GetMyOrdersVariablesBuilder(dataConnect, userId: userId,);
-  }
-  
-  
-  GetOrderDetailsVariablesBuilder getOrderDetails ({required String orderId, }) {
-    return GetOrderDetailsVariablesBuilder(dataConnect, orderId: orderId,);
-  }
-  
-  
-  GetAllOrdersVariablesBuilder getAllOrders () {
-    return GetAllOrdersVariablesBuilder(dataConnect, );
-  }
-  
-  
-  UpdateOrderStatusVariablesBuilder updateOrderStatus ({required String orderId, required String newStatus, }) {
-    return UpdateOrderStatusVariablesBuilder(dataConnect, orderId: orderId,newStatus: newStatus,);
-  }
-  
-  
-  UpdateStockVariablesBuilder updateStock ({required String id, required int inStockQty, required int inUseQty, }) {
-    return UpdateStockVariablesBuilder(dataConnect, id: id,inStockQty: inStockQty,inUseQty: inUseQty,);
-  }
-  
-  
-  GetUserByIdVariablesBuilder getUserById ({required String id, }) {
-    return GetUserByIdVariablesBuilder(dataConnect, id: id,);
-  }
-  
-  
-  GetRoleByIdVariablesBuilder getRoleById ({required String id, }) {
-    return GetRoleByIdVariablesBuilder(dataConnect, id: id,);
-  }
-  
-  
-  CreateUserVariablesBuilder createUser ({required String id, required String username, required String email, required String role, }) {
-    return CreateUserVariablesBuilder(dataConnect, id: id,username: username,email: email,role: role,);
-  }
   
   
   GetCartByUserIdVariablesBuilder getCartByUserId ({required String userId, }) {
@@ -156,6 +116,46 @@ class ExampleConnector {
   
   GetInstrumentsByCategoryIdVariablesBuilder getInstrumentsByCategoryId ({required String categoryId, }) {
     return GetInstrumentsByCategoryIdVariablesBuilder(dataConnect, categoryId: categoryId,);
+  }
+  
+  
+  GetMyOrdersVariablesBuilder getMyOrders ({required String userId, }) {
+    return GetMyOrdersVariablesBuilder(dataConnect, userId: userId,);
+  }
+  
+  
+  GetOrderDetailsVariablesBuilder getOrderDetails ({required String orderId, }) {
+    return GetOrderDetailsVariablesBuilder(dataConnect, orderId: orderId,);
+  }
+  
+  
+  GetAllOrdersVariablesBuilder getAllOrders () {
+    return GetAllOrdersVariablesBuilder(dataConnect, );
+  }
+  
+  
+  UpdateOrderStatusVariablesBuilder updateOrderStatus ({required String orderId, required String newStatus, }) {
+    return UpdateOrderStatusVariablesBuilder(dataConnect, orderId: orderId,newStatus: newStatus,);
+  }
+  
+  
+  UpdateStockVariablesBuilder updateStock ({required String id, required int inStockQty, required int inUseQty, }) {
+    return UpdateStockVariablesBuilder(dataConnect, id: id,inStockQty: inStockQty,inUseQty: inUseQty,);
+  }
+  
+  
+  GetUserByIdVariablesBuilder getUserById ({required String id, }) {
+    return GetUserByIdVariablesBuilder(dataConnect, id: id,);
+  }
+  
+  
+  GetRoleByIdVariablesBuilder getRoleById ({required String id, }) {
+    return GetRoleByIdVariablesBuilder(dataConnect, id: id,);
+  }
+  
+  
+  CreateUserVariablesBuilder createUser ({required String id, required String username, required String email, required String role, }) {
+    return CreateUserVariablesBuilder(dataConnect, id: id,username: username,email: email,role: role,);
   }
   
 

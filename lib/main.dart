@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DENIS App',
+      title: 'AI for Dental Equipment Management System',
       theme: AppTheme.lightTheme,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       home: StreamBuilder<User?>(

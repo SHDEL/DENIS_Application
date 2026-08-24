@@ -60,7 +60,7 @@ class _SignInPageState extends State<SignInPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 24),
-                  SvgPicture.asset('assets/image/DenisTextIcon.svg', height: 200),
+                  SvgPicture.asset('assets/image/TextIcon.svg', height: 200),
                   const SizedBox(height: 24),
                   Text('Sign In', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.lightTheme.primaryColor)),
                   const SizedBox(height: 24),

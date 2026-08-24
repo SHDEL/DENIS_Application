@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SvgPicture.asset('assets/image/DenisTextIcon.svg'),
+        child: SvgPicture.asset('assets/image/TextIcon.svg'),
       ),
     );
   }

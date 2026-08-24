@@ -9,9 +9,7 @@ export type DateString = string;
 
 
 export interface AddItemToCartData {
-  cartItem_insert: {
-    id: UUIDString;
-  };
+  cartItem_insert: CartItem_Key;
 }
 
 export interface AddItemToCartVariables {
@@ -51,9 +49,7 @@ export interface ClearCartItemsVariables {
 }
 
 export interface CreateCartData {
-  cart_insert: {
-    id: UUIDString;
-  };
+  cart_insert: Cart_Key;
 }
 
 export interface CreateCartVariables {
@@ -62,15 +58,11 @@ export interface CreateCartVariables {
 }
 
 export interface CreateOrderData {
-  order_insert: {
-    id: UUIDString;
-  };
+  order_insert: Order_Key;
 }
 
 export interface CreateOrderItemData {
-  orderItem_insert: {
-    id: UUIDString;
-  };
+  orderItem_insert: OrderItem_Key;
 }
 
 export interface CreateOrderItemVariables {
@@ -86,9 +78,7 @@ export interface CreateOrderVariables {
 }
 
 export interface CreateUserData {
-  user_insert: {
-    id: string;
-  };
+  user_insert: User_Key;
 }
 
 export interface CreateUserVariables {
@@ -99,9 +89,7 @@ export interface CreateUserVariables {
 }
 
 export interface DeleteCartItemData {
-  cartItem_delete?: {
-    id: UUIDString;
-  };
+  cartItem_delete?: CartItem_Key | null;
 }
 
 export interface DeleteCartItemVariables {
@@ -113,22 +101,22 @@ export interface GetAllInstrumentsAndCategoriesData {
     id: UUIDString;
     name: string;
   } & InstrumentCategory_Key)[];
-    instruments: ({
+  instruments: ({
+    id: UUIDString;
+    name: string;
+    imageUrl: string;
+    category: {
       id: UUIDString;
       name: string;
-      imageUrl: string;
-      category: {
-        id: UUIDString;
-        name: string;
-      } & InstrumentCategory_Key;
-        description: string;
-        stocks_on_instrument: ({
-          id: UUIDString;
-          inStockQty: number;
-          inUseQty: number;
-          shelf: string;
-        } & Stock_Key)[];
-    } & Instrument_Key)[];
+    } & InstrumentCategory_Key;
+    description: string;
+    stocks_on_instrument: ({
+      id: UUIDString;
+      inStockQty: number;
+      inUseQty: number;
+      shelf: string;
+    } & Stock_Key)[];
+  } & Instrument_Key)[];
 }
 
 export interface GetAllOrdersData {
@@ -175,12 +163,12 @@ export interface GetInstrumentsByCategoryIdData {
     category: {
       name: string;
     };
-      stocks_on_instrument: ({
-        id: UUIDString;
-        inStockQty: number;
-        inUseQty: number;
-        shelf: string;
-      } & Stock_Key)[];
+    stocks_on_instrument: ({
+      id: UUIDString;
+      inStockQty: number;
+      inUseQty: number;
+      shelf: string;
+    } & Stock_Key)[];
   } & Instrument_Key)[];
 }
 
@@ -300,9 +288,7 @@ export interface Stock_Key {
 }
 
 export interface UpdateCartItemData {
-  cartItem_update?: {
-    id: UUIDString;
-  };
+  cartItem_update?: CartItem_Key | null;
 }
 
 export interface UpdateCartItemVariables {
@@ -311,9 +297,7 @@ export interface UpdateCartItemVariables {
 }
 
 export interface UpdateOrderStatusData {
-  order_update?: {
-    id: UUIDString;
-  };
+  order_update?: Order_Key | null;
 }
 
 export interface UpdateOrderStatusVariables {
@@ -322,9 +306,7 @@ export interface UpdateOrderStatusVariables {
 }
 
 export interface UpdateStockData {
-  stock_update?: {
-    id: UUIDString;
-  };
+  stock_update?: Stock_Key | null;
 }
 
 export interface UpdateStockVariables {
@@ -337,46 +319,6 @@ export interface User_Key {
   id: string;
   __typename?: 'User_Key';
 }
-
-/** Generated Node Admin SDK operation action function for the 'GetMyOrders' Query. Allow users to execute without passing in DataConnect. */
-export function getMyOrders(dc: DataConnect, vars: GetMyOrdersVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyOrdersData>>;
-/** Generated Node Admin SDK operation action function for the 'GetMyOrders' Query. Allow users to pass in custom DataConnect instances. */
-export function getMyOrders(vars: GetMyOrdersVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyOrdersData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetOrderDetails' Query. Allow users to execute without passing in DataConnect. */
-export function getOrderDetails(dc: DataConnect, vars: GetOrderDetailsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetOrderDetailsData>>;
-/** Generated Node Admin SDK operation action function for the 'GetOrderDetails' Query. Allow users to pass in custom DataConnect instances. */
-export function getOrderDetails(vars: GetOrderDetailsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetOrderDetailsData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetAllOrders' Query. Allow users to execute without passing in DataConnect. */
-export function getAllOrders(dc: DataConnect, options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllOrdersData>>;
-/** Generated Node Admin SDK operation action function for the 'GetAllOrders' Query. Allow users to pass in custom DataConnect instances. */
-export function getAllOrders(options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllOrdersData>>;
-
-/** Generated Node Admin SDK operation action function for the 'UpdateOrderStatus' Mutation. Allow users to execute without passing in DataConnect. */
-export function updateOrderStatus(dc: DataConnect, vars: UpdateOrderStatusVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateOrderStatusData>>;
-/** Generated Node Admin SDK operation action function for the 'UpdateOrderStatus' Mutation. Allow users to pass in custom DataConnect instances. */
-export function updateOrderStatus(vars: UpdateOrderStatusVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateOrderStatusData>>;
-
-/** Generated Node Admin SDK operation action function for the 'UpdateStock' Mutation. Allow users to execute without passing in DataConnect. */
-export function updateStock(dc: DataConnect, vars: UpdateStockVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateStockData>>;
-/** Generated Node Admin SDK operation action function for the 'UpdateStock' Mutation. Allow users to pass in custom DataConnect instances. */
-export function updateStock(vars: UpdateStockVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateStockData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetUserById' Query. Allow users to execute without passing in DataConnect. */
-export function getUserById(dc: DataConnect, vars: GetUserByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetUserByIdData>>;
-/** Generated Node Admin SDK operation action function for the 'GetUserById' Query. Allow users to pass in custom DataConnect instances. */
-export function getUserById(vars: GetUserByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetUserByIdData>>;
-
-/** Generated Node Admin SDK operation action function for the 'GetRoleById' Query. Allow users to execute without passing in DataConnect. */
-export function getRoleById(dc: DataConnect, vars: GetRoleByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetRoleByIdData>>;
-/** Generated Node Admin SDK operation action function for the 'GetRoleById' Query. Allow users to pass in custom DataConnect instances. */
-export function getRoleById(vars: GetRoleByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetRoleByIdData>>;
-
-/** Generated Node Admin SDK operation action function for the 'CreateUser' Mutation. Allow users to execute without passing in DataConnect. */
-export function createUser(dc: DataConnect, vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
-/** Generated Node Admin SDK operation action function for the 'CreateUser' Mutation. Allow users to pass in custom DataConnect instances. */
-export function createUser(vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
 
 /** Generated Node Admin SDK operation action function for the 'GetCartByUserId' Query. Allow users to execute without passing in DataConnect. */
 export function getCartByUserId(dc: DataConnect, vars: GetCartByUserIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetCartByUserIdData>>;
@@ -442,4 +384,44 @@ export function getAllInstrumentsAndCategories(options?: OperationOptions): Prom
 export function getInstrumentsByCategoryId(dc: DataConnect, vars: GetInstrumentsByCategoryIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetInstrumentsByCategoryIdData>>;
 /** Generated Node Admin SDK operation action function for the 'GetInstrumentsByCategoryId' Query. Allow users to pass in custom DataConnect instances. */
 export function getInstrumentsByCategoryId(vars: GetInstrumentsByCategoryIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetInstrumentsByCategoryIdData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetMyOrders' Query. Allow users to execute without passing in DataConnect. */
+export function getMyOrders(dc: DataConnect, vars: GetMyOrdersVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyOrdersData>>;
+/** Generated Node Admin SDK operation action function for the 'GetMyOrders' Query. Allow users to pass in custom DataConnect instances. */
+export function getMyOrders(vars: GetMyOrdersVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetMyOrdersData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetOrderDetails' Query. Allow users to execute without passing in DataConnect. */
+export function getOrderDetails(dc: DataConnect, vars: GetOrderDetailsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetOrderDetailsData>>;
+/** Generated Node Admin SDK operation action function for the 'GetOrderDetails' Query. Allow users to pass in custom DataConnect instances. */
+export function getOrderDetails(vars: GetOrderDetailsVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetOrderDetailsData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetAllOrders' Query. Allow users to execute without passing in DataConnect. */
+export function getAllOrders(dc: DataConnect, options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllOrdersData>>;
+/** Generated Node Admin SDK operation action function for the 'GetAllOrders' Query. Allow users to pass in custom DataConnect instances. */
+export function getAllOrders(options?: OperationOptions): Promise<ExecuteOperationResponse<GetAllOrdersData>>;
+
+/** Generated Node Admin SDK operation action function for the 'UpdateOrderStatus' Mutation. Allow users to execute without passing in DataConnect. */
+export function updateOrderStatus(dc: DataConnect, vars: UpdateOrderStatusVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateOrderStatusData>>;
+/** Generated Node Admin SDK operation action function for the 'UpdateOrderStatus' Mutation. Allow users to pass in custom DataConnect instances. */
+export function updateOrderStatus(vars: UpdateOrderStatusVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateOrderStatusData>>;
+
+/** Generated Node Admin SDK operation action function for the 'UpdateStock' Mutation. Allow users to execute without passing in DataConnect. */
+export function updateStock(dc: DataConnect, vars: UpdateStockVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateStockData>>;
+/** Generated Node Admin SDK operation action function for the 'UpdateStock' Mutation. Allow users to pass in custom DataConnect instances. */
+export function updateStock(vars: UpdateStockVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<UpdateStockData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetUserById' Query. Allow users to execute without passing in DataConnect. */
+export function getUserById(dc: DataConnect, vars: GetUserByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetUserByIdData>>;
+/** Generated Node Admin SDK operation action function for the 'GetUserById' Query. Allow users to pass in custom DataConnect instances. */
+export function getUserById(vars: GetUserByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetUserByIdData>>;
+
+/** Generated Node Admin SDK operation action function for the 'GetRoleById' Query. Allow users to execute without passing in DataConnect. */
+export function getRoleById(dc: DataConnect, vars: GetRoleByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetRoleByIdData>>;
+/** Generated Node Admin SDK operation action function for the 'GetRoleById' Query. Allow users to pass in custom DataConnect instances. */
+export function getRoleById(vars: GetRoleByIdVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<GetRoleByIdData>>;
+
+/** Generated Node Admin SDK operation action function for the 'CreateUser' Mutation. Allow users to execute without passing in DataConnect. */
+export function createUser(dc: DataConnect, vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
+/** Generated Node Admin SDK operation action function for the 'CreateUser' Mutation. Allow users to pass in custom DataConnect instances. */
+export function createUser(vars: CreateUserVariables, options?: OperationOptions): Promise<ExecuteOperationResponse<CreateUserData>>;
 

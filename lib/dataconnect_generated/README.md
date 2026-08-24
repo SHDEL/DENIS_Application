@@ -21,243 +21,6 @@ ExampleConnector.instance.dataConnect.useDataConnectEmulator(host, port);
 You can also call queries and mutations by using the connector class.
 ## Queries
 
-### GetMyOrders
-#### Required Arguments
-```dart
-String userId = ...;
-ExampleConnector.instance.getMyOrders(
-  userId: userId,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `QueryResult<GetMyOrdersData, GetMyOrdersVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-/// Result of a query request. Created to hold extra variables in the future.
-class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
-  QueryResult(super.dataConnect, super.data, super.ref);
-}
-
-final result = await ExampleConnector.instance.getMyOrders(
-  userId: userId,
-);
-GetMyOrdersData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String userId = ...;
-
-final ref = ExampleConnector.instance.getMyOrders(
-  userId: userId,
-).ref();
-ref.execute();
-
-ref.subscribe(...);
-```
-
-
-### GetOrderDetails
-#### Required Arguments
-```dart
-String orderId = ...;
-ExampleConnector.instance.getOrderDetails(
-  orderId: orderId,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `QueryResult<GetOrderDetailsData, GetOrderDetailsVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-/// Result of a query request. Created to hold extra variables in the future.
-class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
-  QueryResult(super.dataConnect, super.data, super.ref);
-}
-
-final result = await ExampleConnector.instance.getOrderDetails(
-  orderId: orderId,
-);
-GetOrderDetailsData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String orderId = ...;
-
-final ref = ExampleConnector.instance.getOrderDetails(
-  orderId: orderId,
-).ref();
-ref.execute();
-
-ref.subscribe(...);
-```
-
-
-### GetAllOrders
-#### Required Arguments
-```dart
-// No required arguments
-ExampleConnector.instance.getAllOrders().execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `QueryResult<GetAllOrdersData, void>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-/// Result of a query request. Created to hold extra variables in the future.
-class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
-  QueryResult(super.dataConnect, super.data, super.ref);
-}
-
-final result = await ExampleConnector.instance.getAllOrders();
-GetAllOrdersData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-final ref = ExampleConnector.instance.getAllOrders().ref();
-ref.execute();
-
-ref.subscribe(...);
-```
-
-
-### GetUserById
-#### Required Arguments
-```dart
-String id = ...;
-ExampleConnector.instance.getUserById(
-  id: id,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `QueryResult<GetUserByIdData, GetUserByIdVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-/// Result of a query request. Created to hold extra variables in the future.
-class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
-  QueryResult(super.dataConnect, super.data, super.ref);
-}
-
-final result = await ExampleConnector.instance.getUserById(
-  id: id,
-);
-GetUserByIdData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String id = ...;
-
-final ref = ExampleConnector.instance.getUserById(
-  id: id,
-).ref();
-ref.execute();
-
-ref.subscribe(...);
-```
-
-
-### GetRoleById
-#### Required Arguments
-```dart
-String id = ...;
-ExampleConnector.instance.getRoleById(
-  id: id,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `QueryResult<GetRoleByIdData, GetRoleByIdVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-/// Result of a query request. Created to hold extra variables in the future.
-class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
-  QueryResult(super.dataConnect, super.data, super.ref);
-}
-
-final result = await ExampleConnector.instance.getRoleById(
-  id: id,
-);
-GetRoleByIdData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String id = ...;
-
-final ref = ExampleConnector.instance.getRoleById(
-  id: id,
-).ref();
-ref.execute();
-
-ref.subscribe(...);
-```
-
-
 ### GetCartByUserId
 #### Required Arguments
 ```dart
@@ -540,163 +303,244 @@ ref.execute();
 ref.subscribe(...);
 ```
 
+
+### GetMyOrders
+#### Required Arguments
+```dart
+String userId = ...;
+ExampleConnector.instance.getMyOrders(
+  userId: userId,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetMyOrdersData, GetMyOrdersVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getMyOrders(
+  userId: userId,
+);
+GetMyOrdersData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String userId = ...;
+
+final ref = ExampleConnector.instance.getMyOrders(
+  userId: userId,
+).ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
+### GetOrderDetails
+#### Required Arguments
+```dart
+String orderId = ...;
+ExampleConnector.instance.getOrderDetails(
+  orderId: orderId,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetOrderDetailsData, GetOrderDetailsVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getOrderDetails(
+  orderId: orderId,
+);
+GetOrderDetailsData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String orderId = ...;
+
+final ref = ExampleConnector.instance.getOrderDetails(
+  orderId: orderId,
+).ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
+### GetAllOrders
+#### Required Arguments
+```dart
+// No required arguments
+ExampleConnector.instance.getAllOrders().execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetAllOrdersData, void>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getAllOrders();
+GetAllOrdersData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+final ref = ExampleConnector.instance.getAllOrders().ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
+### GetUserById
+#### Required Arguments
+```dart
+String id = ...;
+ExampleConnector.instance.getUserById(
+  id: id,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetUserByIdData, GetUserByIdVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getUserById(
+  id: id,
+);
+GetUserByIdData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String id = ...;
+
+final ref = ExampleConnector.instance.getUserById(
+  id: id,
+).ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
+
+### GetRoleById
+#### Required Arguments
+```dart
+String id = ...;
+ExampleConnector.instance.getRoleById(
+  id: id,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `QueryResult<GetRoleByIdData, GetRoleByIdVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+/// Result of a query request. Created to hold extra variables in the future.
+class QueryResult<Data, Variables> extends OperationResult<Data, Variables> {
+  QueryResult(super.dataConnect, super.data, super.ref);
+}
+
+final result = await ExampleConnector.instance.getRoleById(
+  id: id,
+);
+GetRoleByIdData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String id = ...;
+
+final ref = ExampleConnector.instance.getRoleById(
+  id: id,
+).ref();
+ref.execute();
+
+ref.subscribe(...);
+```
+
 ## Mutations
-
-### UpdateOrderStatus
-#### Required Arguments
-```dart
-String orderId = ...;
-String newStatus = ...;
-ExampleConnector.instance.updateOrderStatus(
-  orderId: orderId,
-  newStatus: newStatus,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `OperationResult<UpdateOrderStatusData, UpdateOrderStatusVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-final result = await ExampleConnector.instance.updateOrderStatus(
-  orderId: orderId,
-  newStatus: newStatus,
-);
-UpdateOrderStatusData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String orderId = ...;
-String newStatus = ...;
-
-final ref = ExampleConnector.instance.updateOrderStatus(
-  orderId: orderId,
-  newStatus: newStatus,
-).ref();
-ref.execute();
-```
-
-
-### updateStock
-#### Required Arguments
-```dart
-String id = ...;
-int inStockQty = ...;
-int inUseQty = ...;
-ExampleConnector.instance.updateStock(
-  id: id,
-  inStockQty: inStockQty,
-  inUseQty: inUseQty,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `OperationResult<updateStockData, updateStockVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-final result = await ExampleConnector.instance.updateStock(
-  id: id,
-  inStockQty: inStockQty,
-  inUseQty: inUseQty,
-);
-updateStockData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String id = ...;
-int inStockQty = ...;
-int inUseQty = ...;
-
-final ref = ExampleConnector.instance.updateStock(
-  id: id,
-  inStockQty: inStockQty,
-  inUseQty: inUseQty,
-).ref();
-ref.execute();
-```
-
-
-### CreateUser
-#### Required Arguments
-```dart
-String id = ...;
-String username = ...;
-String email = ...;
-String role = ...;
-ExampleConnector.instance.createUser(
-  id: id,
-  username: username,
-  email: email,
-  role: role,
-).execute();
-```
-
-
-
-#### Return Type
-`execute()` returns a `OperationResult<CreateUserData, CreateUserVariables>`
-```dart
-/// Result of an Operation Request (query/mutation).
-class OperationResult<Data, Variables> {
-  OperationResult(this.dataConnect, this.data, this.ref);
-  Data data;
-  OperationRef<Data, Variables> ref;
-  FirebaseDataConnect dataConnect;
-}
-
-final result = await ExampleConnector.instance.createUser(
-  id: id,
-  username: username,
-  email: email,
-  role: role,
-);
-CreateUserData data = result.data;
-final ref = result.ref;
-```
-
-#### Getting the Ref
-Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
-An example of how to use the `Ref` object is shown below:
-```dart
-String id = ...;
-String username = ...;
-String email = ...;
-String role = ...;
-
-final ref = ExampleConnector.instance.createUser(
-  id: id,
-  username: username,
-  email: email,
-  role: role,
-).ref();
-ref.execute();
-```
-
 
 ### CreateCart
 #### Required Arguments
@@ -1027,6 +871,162 @@ String cartItemId = ...;
 
 final ref = ExampleConnector.instance.deleteCartItem(
   cartItemId: cartItemId,
+).ref();
+ref.execute();
+```
+
+
+### UpdateOrderStatus
+#### Required Arguments
+```dart
+String orderId = ...;
+String newStatus = ...;
+ExampleConnector.instance.updateOrderStatus(
+  orderId: orderId,
+  newStatus: newStatus,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `OperationResult<UpdateOrderStatusData, UpdateOrderStatusVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+final result = await ExampleConnector.instance.updateOrderStatus(
+  orderId: orderId,
+  newStatus: newStatus,
+);
+UpdateOrderStatusData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String orderId = ...;
+String newStatus = ...;
+
+final ref = ExampleConnector.instance.updateOrderStatus(
+  orderId: orderId,
+  newStatus: newStatus,
+).ref();
+ref.execute();
+```
+
+
+### updateStock
+#### Required Arguments
+```dart
+String id = ...;
+int inStockQty = ...;
+int inUseQty = ...;
+ExampleConnector.instance.updateStock(
+  id: id,
+  inStockQty: inStockQty,
+  inUseQty: inUseQty,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `OperationResult<updateStockData, updateStockVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+final result = await ExampleConnector.instance.updateStock(
+  id: id,
+  inStockQty: inStockQty,
+  inUseQty: inUseQty,
+);
+updateStockData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String id = ...;
+int inStockQty = ...;
+int inUseQty = ...;
+
+final ref = ExampleConnector.instance.updateStock(
+  id: id,
+  inStockQty: inStockQty,
+  inUseQty: inUseQty,
+).ref();
+ref.execute();
+```
+
+
+### CreateUser
+#### Required Arguments
+```dart
+String id = ...;
+String username = ...;
+String email = ...;
+String role = ...;
+ExampleConnector.instance.createUser(
+  id: id,
+  username: username,
+  email: email,
+  role: role,
+).execute();
+```
+
+
+
+#### Return Type
+`execute()` returns a `OperationResult<CreateUserData, CreateUserVariables>`
+```dart
+/// Result of an Operation Request (query/mutation).
+class OperationResult<Data, Variables> {
+  OperationResult(this.dataConnect, this.data, this.ref);
+  Data data;
+  OperationRef<Data, Variables> ref;
+  FirebaseDataConnect dataConnect;
+}
+
+final result = await ExampleConnector.instance.createUser(
+  id: id,
+  username: username,
+  email: email,
+  role: role,
+);
+CreateUserData data = result.data;
+final ref = result.ref;
+```
+
+#### Getting the Ref
+Each builder returns an `execute` function, which is a helper function that creates a `Ref` object, and executes the underlying operation.
+An example of how to use the `Ref` object is shown below:
+```dart
+String id = ...;
+String username = ...;
+String email = ...;
+String role = ...;
+
+final ref = ExampleConnector.instance.createUser(
+  id: id,
+  username: username,
+  email: email,
+  role: role,
 ).ref();
 ref.execute();
 ```
