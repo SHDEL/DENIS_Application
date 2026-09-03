@@ -1,3 +1,4 @@
+import 'package:denis/presentation/widgets/app_search_bar.dart';
 import 'package:denis/presentation/widgets/instruments_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,13 @@ class StockSearchAdminWidget extends StatefulWidget {
 class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
   int _selectedTabIndex = 0;
   List<String> _tabs = ['All'];
-
+  String _searchQuery = '';
   // สร้าง Future สำหรับดึงข้อมูล Stock
   late Future<QueryResult<GetAllInstrumentsAndCategoriesData, void>> _stockFuture;
-
+  
   // สำหรับการทำ Checkbox ในแต่ละแถว (เก็บ ID ของ Instrument)
   Set<String> _selectedItems = {};
-
+  
   @override
   void initState() {
     super.initState();
@@ -75,9 +76,15 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
                 // กรองข้อมูลตาม Tab ที่ถูกเลือก
                 final selectedCategory = _tabs.length > _selectedTabIndex ? _tabs[_selectedTabIndex] : 'All';
                 final allInstruments = data.instruments;
-                final filteredInstruments = selectedCategory == 'All' 
-                    ? allInstruments 
-                    : allInstruments.where((item) => item.category.name == selectedCategory).toList();
+
+                final filteredInstruments = allInstruments.where((item) {
+                  // 1. เงื่อนไข Category
+                  final matchCategory = selectedCategory == 'All' || item.category.name == selectedCategory;
+                  // 2. เงื่อนไขคำค้นหา (ชื่ออุปกรณ์)
+                  final matchQuery = _searchQuery.isEmpty || item.name.toLowerCase().contains(_searchQuery.toLowerCase().trim());
+
+                  return matchCategory && matchQuery;
+                }).toList();
 
                 return Column(
                   children: [
@@ -158,6 +165,7 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
   }
 
   Widget _buildHeader() {
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -208,6 +216,10 @@ class _StockSearchAdminWidgetState extends State<StockSearchAdminWidget> {
               ),
             );
           }),
+        ),
+         AppSearchBar(
+          hintText: 'Search instrument...',
+          onChanged: (value) => setState(() => _searchQuery = value),
         ),
       ],
     );

@@ -29,54 +29,95 @@ class CartitemCardWidget extends StatefulWidget {
 }
 
 class _CartitemCardWidgetState extends State<CartitemCardWidget> {
+  bool _isDeleting = false;
+
+  void _handleDelete() async {
+    if (_isDeleting) return;
+    setState(() {
+      _isDeleting = true;
+    });
+    try {
+      await widget.onDelete(widget.index, widget.cartItemId);
+    } catch (_) {
+      // Parent handles or logs error
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // กล่องรูปภาพกรรไกร
-        Container(
-          width: 90,
-          height: 90,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.grey.shade200),
+    return AnimatedOpacity(
+      opacity: _isDeleting ? 0.4 : 1.0,
+      duration: const Duration(milliseconds: 200),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // กล่องรูปภาพกรรไกร
+          Container(
+            width: 90,
+            height: 90,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: Center(
+              child: widget.imageUrl.isNotEmpty
+                  ? Image.network(widget.imageUrl, fit: BoxFit.contain)
+                  : Icon(Icons.content_cut, size: 45, color: Colors.grey.shade400,),
+            ),
           ),
-          child: Center(
-            child: widget.imageUrl.isNotEmpty
-                ? Image.network(widget.imageUrl, fit: BoxFit.contain)
-                : Icon(Icons.content_cut, size: 45, color: Colors.grey.shade400,),
-          ),
-        ),
-        const SizedBox(width: 20),
-        // ข้อมูลของไอเท็ม
-        Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.name,
-                    style: const TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito',
+          const SizedBox(width: 20),
+          // ข้อมูลของไอเท็ม
+          Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.name,
+                      style: const TextStyle(
+                        color: Colors.deepPurple,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nunito',
+                      ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => widget.onDelete(widget.index, widget.cartItemId),
-                  child: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 24),
-                  
-                ),
-              ],
-            ),
+                  _isDeleting
+                      ? const SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 24),
+                          splashRadius: 20,
+                          splashColor: Colors.redAccent.withValues(alpha: 0.3),
+                          highlightColor: Colors.redAccent.withValues(alpha: 0.15),
+                          hoverColor: Colors.redAccent.withValues(alpha: 0.08),
+                          padding: const EdgeInsets.all(4),
+                          constraints: const BoxConstraints(),
+                          tooltip: 'Delete',
+                          onPressed: _handleDelete,
+                        ),
+                ],
+              ),
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -130,10 +171,10 @@ class _CartitemCardWidgetState extends State<CartitemCardWidget> {
                        // ✅ เปลี่ยนมาเรียก _updateItemQuantity
                        if (widget.amount >= widget.inStockQty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Cannot add more than available stock.'),
+                            const SnackBar(
+                              content: Text('Cannot add more than available stock.'),
                               backgroundColor: Colors.red,
-                              duration: const Duration(seconds: 1),
+                              duration: Duration(seconds: 1),
                             ),
                           );
                           return;
@@ -148,6 +189,7 @@ class _CartitemCardWidgetState extends State<CartitemCardWidget> {
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 }

@@ -1,4 +1,5 @@
 // ด้านบนของ import อย่าลืม import 'package:denis/dataconnect_generated/generated.dart';
+import 'package:denis/presentation/theme/reponsive.dart';
 import 'package:denis/presentation/widgets/instruments_details.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +43,10 @@ class _InstrumentGridState extends State<InstrumentGrid> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb){
-      crossAxisCount = 4;
+    if (Responsive.isDesktop(context)) {
+      crossAxisCount = 4; // จอคอมขนาดใหญ่
+    } else if (Responsive.isTablet(context)) {
+      crossAxisCount = 3; // จอแท็บเล็ต / จอกลาง
     }
     return GridView.builder(
       padding: EdgeInsets.zero,
@@ -105,6 +108,8 @@ class _InstrumentGridState extends State<InstrumentGrid> {
                     const SizedBox(height: 12),
                     Text(
                       widget.instruments[index].name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.deepPurple,
                         fontWeight: FontWeight.bold,

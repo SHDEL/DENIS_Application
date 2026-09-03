@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:denis/presentation/widgets/app_search_bar.dart';
 import 'package:denis/presentation/widgets/orderwidget/request_details_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:denis/dataconnect_generated/generated.dart';
@@ -24,6 +25,7 @@ class _RequestManagementState extends State<RequestManagement> {
 
   late Future<QueryResult<GetAllOrdersData, void>> _ordersFuture;
   final Set<String> _selectedOrders = {};
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -215,6 +217,16 @@ class _RequestManagementState extends State<RequestManagement> {
                   if (orders.isEmpty) {
                     return const Center(child: Text('No requests found'));
                   }
+                  
+                  // 1. กรองคำขอตามคำค้นหา
+                  final filteredOrders = orders.where((order) {
+                    if (_searchQuery.isEmpty) return true;
+                    final q = _searchQuery.toLowerCase().trim();
+                    
+                    final matchUsername = order.user.username.toLowerCase().contains(q);
+                    final matchId = order.id.toLowerCase().contains(q);
+                    return matchUsername || matchId;
+                  }).toList();
 
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -226,11 +238,18 @@ class _RequestManagementState extends State<RequestManagement> {
                           _buildTableHeader(),
                           const Divider(height: 1),
                           Expanded(
-                            child: ListView.separated(
-                              itemCount: orders.length,
+                            child: filteredOrders.isEmpty ? 
+                                    const Center(
+                                      child: Text(
+                                        'No matching requests found.',
+                                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                                      ),
+                                    )
+                              :ListView.separated(
+                              itemCount: filteredOrders.length,
                               separatorBuilder: (context, index) => const Divider(height: 1),
                               itemBuilder: (context, index) {
-                                final order = orders[index];
+                                final order = filteredOrders[index];
                                 final formattedTime = _formatDateTime(order.orderDate);
                                 
                                 return InkWell(
@@ -314,6 +333,10 @@ class _RequestManagementState extends State<RequestManagement> {
               ),
             );
           }),
+        ),
+        AppSearchBar(
+          hintText: 'Search request or user...',
+          onChanged: (value) => setState(() => _searchQuery = value),
         ),
       ],
     );

@@ -1,11 +1,11 @@
 
 import 'package:denis/presentation/pages/orderpage.dart';
 import 'package:denis/presentation/pages/profile.dart';
-import 'package:denis/presentation/pages/request_manage._widget.dart';
+import 'package:denis/presentation/pages/request_manage_widget.dart';
 import 'package:denis/presentation/widgets/homewidget/camera_widget.dart';
 import 'package:denis/presentation/widgets/homewidget/home_user_widget.dart';
 import 'package:denis/presentation/widgets/homewidget/home_admin_widget.dart';
-import 'package:denis/presentation/pages/search_admin_page.dart';
+import 'package:denis/presentation/pages/stock_search_admin_page.dart';
 import 'package:denis/presentation/pages/search_user_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb){
+    final isMobileScreen = MediaQuery.sizeOf(context).width < 650;
+    if (kIsWeb && !isMobileScreen){
       return Scaffold(
         backgroundColor: Colors.white,
         body: Row(
